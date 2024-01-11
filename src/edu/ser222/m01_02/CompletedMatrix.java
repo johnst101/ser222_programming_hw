@@ -51,12 +51,52 @@ public class CompletedMatrix implements Matrix {
 
     @Override
     public Matrix plus(Matrix other) {
-        throw new java.lang.UnsupportedOperationException("TODO!");
+        int[][] otherCopy = new int[other.getRows()][other.getColumns()]; 
+        int[][] thisCopy = this.newMatrix.clone();        
+
+        // exceptions
+        if (otherCopy == null) {
+            throw new java.lang.IllegalArgumentException("Inputted matrix must not be null");
+        }
+        if (otherCopy.length != thisCopy.length || otherCopy[0].length != thisCopy.length) {
+            throw new java.lang.RuntimeException("Both matrices must have the same dimensions.")
+        }
+
+        // addition
+        for (int i = 0; i < thisCopy.length; i++) {
+            for (int j = 0; j < thisCopy[0].length; j++) {
+                thisCopy[i][j] = thisCopy[i][j] + otherCopy[i][j];
+            }
+        }
+
+        // return
+        Matrix returnMatrix = new CompletedMatrix(thisCopy);
+        return returnMatrix;
     }
 
     @Override
     public Matrix minus(Matrix other) {
-        throw new java.lang.UnsupportedOperationException("TODO!");
+        int[][] otherCopy = new int[other.getRows()][other.getColumns()]; 
+        int[][] thisCopy = this.newMatrix.clone();        
+
+        // exceptions
+        if (otherCopy == null) {
+            throw new java.lang.IllegalArgumentException("Inputted matrix must not be null");
+        }
+        if (otherCopy.length != thisCopy.length || otherCopy[0].length != thisCopy.length) {
+            throw new java.lang.RuntimeException("Both matrices must have the same dimensions.")
+        }
+
+        // subtraction
+        for (int i = 0; i < thisCopy.length; i++) {
+            for (int j = 0; j < thisCopy[0].length; j++) {
+                thisCopy[i][j] = thisCopy[i][j] - otherCopy[i][j];
+            }
+        }
+
+        // return
+        Matrix returnMatrix = new CompletedMatrix(thisCopy);
+        return returnMatrix;
     }
 
     @Override
