@@ -64,6 +64,16 @@ public class CompletedMatrix implements Matrix {
         throw new java.lang.UnsupportedOperationException("TODO!");
     }
 
+    @Override
+    public boolean equals(Object other) {
+
+    }
+
+    @Override
+    public String toString() {
+        
+    }
+
     /**
      * Entry point for matrix testing.
      * @param args the command line arguments
