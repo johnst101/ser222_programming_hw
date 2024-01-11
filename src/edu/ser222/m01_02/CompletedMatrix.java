@@ -63,7 +63,7 @@ public class CompletedMatrix implements Matrix {
             throw new java.lang.IllegalArgumentException("Inputted matrix must not be null");
         }
         if (otherCopy.length != thisCopy.length || otherCopy[0].length != thisCopy.length) {
-            throw new java.lang.RuntimeException("Both matrices must have the same dimensions.")
+            throw new java.lang.RuntimeException("Both matrices must have the same dimensions.");
         }
 
         // addition
@@ -88,7 +88,7 @@ public class CompletedMatrix implements Matrix {
             throw new java.lang.IllegalArgumentException("Inputted matrix must not be null");
         }
         if (otherCopy.length != thisCopy.length || otherCopy[0].length != thisCopy.length) {
-            throw new java.lang.RuntimeException("Both matrices must have the same dimensions.")
+            throw new java.lang.RuntimeException("Both matrices must have the same dimensions.");
         }
 
         // subtraction
@@ -113,7 +113,7 @@ public class CompletedMatrix implements Matrix {
             throw new java.lang.IllegalArgumentException("Inputted matrix must not be null");
         }
         if (otherCopy.length != thisCopy.length || otherCopy[0].length != thisCopy.length) {
-            throw new java.lang.RuntimeException("Both matrices must have the same dimensions.")
+            throw new java.lang.RuntimeException("Both matrices must have the same dimensions.");
         }
 
         // TODO: multiplication
