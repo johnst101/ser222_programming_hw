@@ -40,11 +40,15 @@ public class CompletedMatrix implements Matrix {
     @Override
     public Matrix scale(int scalar) {
         int[][] copyMatrix = this.newMatrix.clone();
+
+        // scale
         for (int i = 0; i < copyMatrix.length; i++) {
         	for (int j = 0; j < copyMatrix[0].length; j++) {
         		copyMatrix[i][j] = scalar * copyMatrix[i][j];
         	}
         }
+
+        // return
         Matrix returnMatrix = new CompletedMatrix(copyMatrix);
         return returnMatrix;
     }
@@ -101,17 +105,65 @@ public class CompletedMatrix implements Matrix {
 
     @Override
     public Matrix multiply(Matrix other) {
-        throw new java.lang.UnsupportedOperationException("TODO!");
+        int[][] otherCopy = new int[other.getRows()][other.getColumns()]; 
+        int[][] thisCopy = this.newMatrix.clone();        
+
+        // exceptions
+        if (otherCopy == null) {
+            throw new java.lang.IllegalArgumentException("Inputted matrix must not be null");
+        }
+        if (otherCopy.length != thisCopy.length || otherCopy[0].length != thisCopy.length) {
+            throw new java.lang.RuntimeException("Both matrices must have the same dimensions.")
+        }
+
+        // TODO: multiplication
+
+        
+        // TODO: return
     }
 
     @Override
     public boolean equals(Object other) {
+        // class checks
+        if (other == this.newMatrix) {
+            return true;
+        }
+        if (other == null) {
+            return false;
+        }
+        if (other.getClass() != this.newMatrix.getClass()) {
+            return false;
+        }
 
+        // equality check
+        Matrix otherMatrix = (CompletedMatrix) other;
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                if (this.getElement(i, j) != otherMatrix.getElement(i, j)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     @Override
     public String toString() {
-        
+        String output = null;
+        for (int i = 0; i < this.newMatrix.length; i++) {
+            for (int j = 0; j < this.newMatrix[0].length; j++) {
+                if ((j == (this.newMatrix[0].length - 1)) && (i == (this.newMatrix.length - 1))) {
+                    output = output + this.getElement(i, j);
+                }
+                if ((j == (this.newMatrix[0].length - 1)) && (i != (this.newMatrix.length - 1))) {
+                    output = output + this.getElement(i, j) + "\n";
+                }
+                output = output + this.getElement(i, j) + " ";
+            }
+        }
+
+        return output;
     }
 
     /**
