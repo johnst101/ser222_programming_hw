@@ -16,10 +16,16 @@ public class CompletedMatrix implements Matrix {
 	
     public CompletedMatrix(int[][] matrix) {
         int[][] copyMatrix = matrix.clone();
+
+        // exception
+        if (copyMatrix == null) {
+            throw new java.lang.IllegalArgumentException("Inputted matrix must not be null.");
+        }
+
+        // construction
         this.newMatrix = copyMatrix;
         this.rows = this.newMatrix.length;
         this.cols = this.newMatrix[0].length;
-        //TODO: throw an exception per the instruction document
     }
 
     @Override
@@ -60,7 +66,7 @@ public class CompletedMatrix implements Matrix {
 
         // exceptions
         if (otherCopy == null) {
-            throw new java.lang.IllegalArgumentException("Inputted matrix must not be null");
+            throw new java.lang.IllegalArgumentException("Inputted matrix must not be null.");
         }
         if (otherCopy.length != thisCopy.length || otherCopy[0].length != thisCopy.length) {
             throw new java.lang.RuntimeException("Both matrices must have the same dimensions.");
@@ -85,7 +91,7 @@ public class CompletedMatrix implements Matrix {
 
         // exceptions
         if (otherCopy == null) {
-            throw new java.lang.IllegalArgumentException("Inputted matrix must not be null");
+            throw new java.lang.IllegalArgumentException("Inputted matrix must not be null.");
         }
         if (otherCopy.length != thisCopy.length || otherCopy[0].length != thisCopy.length) {
             throw new java.lang.RuntimeException("Both matrices must have the same dimensions.");
@@ -106,20 +112,27 @@ public class CompletedMatrix implements Matrix {
     @Override
     public Matrix multiply(Matrix other) {
         int[][] otherCopy = new int[other.getRows()][other.getColumns()]; 
-        int[][] thisCopy = this.newMatrix.clone();        
+        int[][] thisCopy = this.newMatrix.clone(); 
+        int[][] returnArr;       
 
         // exceptions
         if (otherCopy == null) {
-            throw new java.lang.IllegalArgumentException("Inputted matrix must not be null");
+            throw new java.lang.IllegalArgumentException("Inputted matrix must not be null.");
         }
-        if (otherCopy.length != thisCopy.length || otherCopy[0].length != thisCopy.length) {
-            throw new java.lang.RuntimeException("Both matrices must have the same dimensions.");
+        if (thisCopy[0].length != otherCopy.length) {
+            throw new java.lang.RuntimeException("The inputted matrix does not have the proper dimensions.");
         }
 
         // TODO: multiplication
-
+        // always row by column for multiplying
+        for (int i = 0; i < thisCopy.length; i++) {
+            for (int j = 0; j < otherCopy[0].length; j++) {
+                returnArr[i][j] = thisCopy[i][j] * otherCopy[i][j];
+            }
+        }
         
-        // TODO: return
+        Matrix returnMatrix = new CompletedMatrix(returnArr);
+        return returnMatrix;
     }
 
     @Override
