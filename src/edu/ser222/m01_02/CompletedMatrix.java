@@ -150,24 +150,35 @@ public class CompletedMatrix implements Matrix {
     @Override
     public boolean equals(Object other) {
         // class checks
-        if (other == this.newMatrix) {
+        if (other == this) {
             return true;
         }
         if (other == null) {
             return false;
         }
-        if (other.getClass() != this.newMatrix.getClass()) {
+        if (other.getClass() != this.getClass()) {
             return false;
         }
 
         // equality check
         Matrix otherMatrix = (CompletedMatrix) other;
-        for (int i = 0; i < this.rows; i++) {
-            for (int j = 0; j < this.cols; j++) {
-                if (this.getElement(i, j) != otherMatrix.getElement(i, j)) {
-                    return false;
-                }
-            }
+        if ((otherMatrix.getRows() == 0) && (this.getRows() == 0)) {
+        	return true;
+        }
+        else if ((otherMatrix.getRows() != 0) && (this.getRows() == 0)) {
+        	return false;
+        }
+        else if ((otherMatrix.getRows() == 0) && (this.getRows() != 0)) {
+        	return false;
+        }
+        else {
+        	for (int i = 0; i < this.rows; i++) {
+	            for (int j = 0; j < this.cols; j++) {
+	                if (this.getElement(i, j) != otherMatrix.getElement(i, j)) {
+	                    return false;
+	                }
+	            }
+	        }
         }
 
         return true;
@@ -183,7 +194,7 @@ public class CompletedMatrix implements Matrix {
                 	output = thisCopy.getElement(i, j) + " ";
                 }
                 else if ((j == (thisCopy.getColumns() - 1)) && (i == (thisCopy.getRows() - 1))) {
-                    output = output + thisCopy.getElement(i, j);
+                    output = output + thisCopy.getElement(i, j) + "\n";
                 }
                 else if ((j == (thisCopy.getColumns() - 1)) && (i != (thisCopy.getRows() - 1))) {
                     output = output + thisCopy.getElement(i, j) + "\n";
@@ -224,7 +235,7 @@ public class CompletedMatrix implements Matrix {
         //check for reference issues
         System.out.println("m2 -->\n" + m2);
         data2[1][1] = 101;
-        System.out.println("m2 -->\n" + m2); //FIXME
+        System.out.println("m2 -->\n" + m2);
 
         //test equals
         System.out.println("m2==null: " + m2.equals(null));             //false
