@@ -55,22 +55,28 @@ public class CompletedMatrix implements Matrix {
     @Override
     public Matrix scale(int scalar) {
         int[][] copyMatrix = this.newMatrix.clone();
+        int[][] returnArr = new int[copyMatrix.length][copyMatrix[0].length];
 
         // scale
         for (int i = 0; i < copyMatrix.length; i++) {
         	for (int j = 0; j < copyMatrix[0].length; j++) {
-        		copyMatrix[i][j] = scalar * copyMatrix[i][j];
+        		returnArr[i][j] = scalar * copyMatrix[i][j];
         	}
         }
 
         // return
-        Matrix returnMatrix = new CompletedMatrix(copyMatrix);
+        Matrix returnMatrix = new CompletedMatrix(returnArr);
         return returnMatrix;
     }
 
     @Override
     public Matrix plus(Matrix other) {
         int[][] otherCopy = new int[other.getRows()][other.getColumns()]; 
+        for (int i = 0; i < otherCopy.length; i++) {
+            for (int j = 0; j < otherCopy[0].length; j++) {
+            	otherCopy[i][j] = other.getElement(i, j);
+            }
+        }
         int[][] thisCopy = this.newMatrix.clone();        
 
         // exceptions
@@ -86,25 +92,35 @@ public class CompletedMatrix implements Matrix {
         }
 
         // addition
+        int[][] returnArr = new int[thisCopy.length][thisCopy[0].length];
         for (int i = 0; i < thisCopy.length; i++) {
             for (int j = 0; j < thisCopy[0].length; j++) {
-                thisCopy[i][j] = thisCopy[i][j] + otherCopy[i][j];
+            	returnArr[i][j] = thisCopy[i][j] + otherCopy[i][j];
             }
         }
 
         // return
-        Matrix returnMatrix = new CompletedMatrix(thisCopy);
+        Matrix returnMatrix = new CompletedMatrix(returnArr);
         return returnMatrix;
     }
 
     @Override
     public Matrix minus(Matrix other) {
         int[][] otherCopy = new int[other.getRows()][other.getColumns()]; 
+        for (int i = 0; i < otherCopy.length; i++) {
+            for (int j = 0; j < otherCopy[0].length; j++) {
+            	otherCopy[i][j] = other.getElement(i, j);
+            }
+        }
         int[][] thisCopy = this.newMatrix.clone();        
 
         // exceptions
         if (otherCopy == null) {
             throw new java.lang.IllegalArgumentException("Inputted matrix must not be null.");
+        }
+        if (thisCopy.length == 0) {
+        	Matrix thisReturnMatrix = new CompletedMatrix(thisCopy);
+        	return thisReturnMatrix;
         }
         if (otherCopy.length != thisCopy.length || otherCopy[0].length != thisCopy.length) {
             throw new java.lang.RuntimeException("Both matrices must have the same dimensions.");
@@ -124,9 +140,14 @@ public class CompletedMatrix implements Matrix {
 
     @Override
     public Matrix multiply(Matrix other) {
-        int[][] otherCopy = new int[other.getRows()][other.getColumns()]; 
+        int[][] otherCopy = new int[other.getRows()][other.getColumns()];
+        for (int i = 0; i < otherCopy.length; i++) {
+            for (int j = 0; j < otherCopy[0].length; j++) {
+            	otherCopy[i][j] = other.getElement(i, j);
+            }
+        }
         int[][] thisCopy = this.newMatrix.clone(); 
-        int[][] returnArr = null;       
+        int[][] returnArr = new int[thisCopy.length][otherCopy[0].length];      
 
         // exceptions
         if (otherCopy == null) {
