@@ -10,27 +10,36 @@ package edu.ser222.m01_02;
  */
 
 public class CompletedMatrix implements Matrix {
-	private final int[][] newMatrix;
+	private int[][] newMatrix;
 	private int rows;
 	private int cols;
 	
-    public CompletedMatrix(int[][] matrix) {
-        int[][] copyMatrix = matrix.clone();
-
+    public CompletedMatrix(int[][] matrix) {    	
         // exception
-        if (copyMatrix == null) {
+        if (matrix == null) {
             throw new java.lang.IllegalArgumentException("Inputted matrix must not be null.");
         }
-
+        if (matrix.length == 0) {
+            this.newMatrix = new int[0][0];
+            this.rows = 0;
+            this.cols = 0;
+            return;
+        }
+        
         // construction
-        this.newMatrix = copyMatrix;
-        this.rows = this.newMatrix.length;
-        this.cols = this.newMatrix[0].length;
+        this.rows = matrix.length;
+        this.cols = matrix[0].length;
+        this.newMatrix = new int[this.rows][this.cols];
+        for (int i = 0; i < this.rows; i++) {
+        	for (int j = 0; j < this.cols; j++) {
+        		this.newMatrix[i][j] = matrix[i][j];
+        	}
+        }
     }
 
     @Override
     public int getElement(int y, int x) {
-        return this.newMatrix[x][y];
+        return this.newMatrix[y][x];
     }
 
     @Override
@@ -67,6 +76,10 @@ public class CompletedMatrix implements Matrix {
         // exceptions
         if (otherCopy == null) {
             throw new java.lang.IllegalArgumentException("Inputted matrix must not be null.");
+        }
+        if (thisCopy.length == 0) {
+        	Matrix thisReturnMatrix = new CompletedMatrix(thisCopy);
+        	return thisReturnMatrix;
         }
         if (otherCopy.length != thisCopy.length || otherCopy[0].length != thisCopy.length) {
             throw new java.lang.RuntimeException("Both matrices must have the same dimensions.");
@@ -113,7 +126,7 @@ public class CompletedMatrix implements Matrix {
     public Matrix multiply(Matrix other) {
         int[][] otherCopy = new int[other.getRows()][other.getColumns()]; 
         int[][] thisCopy = this.newMatrix.clone(); 
-        int[][] returnArr;       
+        int[][] returnArr = null;       
 
         // exceptions
         if (otherCopy == null) {
@@ -123,8 +136,7 @@ public class CompletedMatrix implements Matrix {
             throw new java.lang.RuntimeException("The inputted matrix does not have the proper dimensions.");
         }
 
-        // TODO: multiplication
-        // always row by column for multiplying
+        // multiplication
         for (int i = 0; i < thisCopy.length; i++) {
             for (int j = 0; j < otherCopy[0].length; j++) {
                 returnArr[i][j] = thisCopy[i][j] * otherCopy[i][j];
@@ -163,16 +175,22 @@ public class CompletedMatrix implements Matrix {
 
     @Override
     public String toString() {
-        String output = null;
-        for (int i = 0; i < this.newMatrix.length; i++) {
-            for (int j = 0; j < this.newMatrix[0].length; j++) {
-                if ((j == (this.newMatrix[0].length - 1)) && (i == (this.newMatrix.length - 1))) {
-                    output = output + this.getElement(i, j);
+        Matrix thisCopy = new CompletedMatrix(this.newMatrix);
+    	String output = null;
+        for (int i = 0; i < thisCopy.getRows(); i++) {
+            for (int j = 0; j < thisCopy.getColumns(); j++) {
+                if ((i == 0) && (j == 0)) {
+                	output = thisCopy.getElement(i, j) + " ";
                 }
-                if ((j == (this.newMatrix[0].length - 1)) && (i != (this.newMatrix.length - 1))) {
-                    output = output + this.getElement(i, j) + "\n";
+                else if ((j == (thisCopy.getColumns() - 1)) && (i == (thisCopy.getRows() - 1))) {
+                    output = output + thisCopy.getElement(i, j);
                 }
-                output = output + this.getElement(i, j) + " ";
+                else if ((j == (thisCopy.getColumns() - 1)) && (i != (thisCopy.getRows() - 1))) {
+                    output = output + thisCopy.getElement(i, j) + "\n";
+                }
+                else { 
+                	output = output + thisCopy.getElement(i, j) + " ";
+                }
             }
         }
 
@@ -206,18 +224,18 @@ public class CompletedMatrix implements Matrix {
         //check for reference issues
         System.out.println("m2 -->\n" + m2);
         data2[1][1] = 101;
-        System.out.println("m2 -->\n" + m2);
+        System.out.println("m2 -->\n" + m2); //FIXME
 
         //test equals
         System.out.println("m2==null: " + m2.equals(null));             //false
         System.out.println("m3==\"MATRIX\": " + m2.equals("MATRIX"));   //false
         System.out.println("m2==m1: " + m2.equals(m1));                 //false
-        System.out.println("m2==m2: " + m2.equals(m2));                 //true
+        System.out.println("m2==m2: " + m2.equals(m2)); //FIXME                //true
         System.out.println("m2==m3: " + m2.equals(m3));                 //false
-        System.out.println("m3==m4: " + m3.equals(m4));                 //true
+        System.out.println("m3==m4: " + m3.equals(m4)); //FIXME                //true
 
         //test operations (valid)
-        System.out.println("m1 + m1:\n" + m1.plus(m1));
+        System.out.println("m1 + m1:\n" + m1.plus(m1)); //FIXME
         System.out.println("m1 + m1:\n" + m1.plus(m1));
         System.out.println("2 * m2:\n" + m2.scale(2));
         System.out.println("m2 + m3:\n" + m2.plus(m3));
