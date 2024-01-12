@@ -10,21 +10,36 @@ package edu.ser222.m01_02;
  */
 
 public class CompletedMatrix implements Matrix {
-	private final int[][] newMatrix;
+	private int[][] newMatrix;
 	private int rows;
 	private int cols;
 	
-    public CompletedMatrix(int[][] matrix) {
-        int[][] copyMatrix = matrix.clone();
-        this.newMatrix = copyMatrix;
-        this.rows = this.newMatrix.length;
-        this.cols = this.newMatrix[0].length;
-        //TODO: throw an exception per the instruction document
+    public CompletedMatrix(int[][] matrix) {    	
+        // exception
+        if (matrix == null) {
+            throw new java.lang.IllegalArgumentException("Inputted matrix must not be null.");
+        }
+        if (matrix.length == 0) {
+            this.newMatrix = new int[0][0];
+            this.rows = 0;
+            this.cols = 0;
+            return;
+        }
+        
+        // construction
+        this.rows = matrix.length;
+        this.cols = matrix[0].length;
+        this.newMatrix = new int[this.rows][this.cols];
+        for (int i = 0; i < this.rows; i++) {
+        	for (int j = 0; j < this.cols; j++) {
+        		this.newMatrix[i][j] = matrix[i][j];
+        	}
+        }
     }
 
     @Override
     public int getElement(int y, int x) {
-        return this.newMatrix[x][y];
+        return this.newMatrix[y][x];
     }
 
     @Override
@@ -39,79 +54,204 @@ public class CompletedMatrix implements Matrix {
 
     @Override
     public Matrix scale(int scalar) {
-        int[][] copyMatrix = this.newMatrix.clone();
-        for (int i = 0; i < copyMatrix.length; i++) {
-        	for (int j = 0; j < copyMatrix[0].length; j++) {
-        		copyMatrix[i][j] = scalar * copyMatrix[i][j];
+        int[][] thisCopy = new int[this.newMatrix.length][this.newMatrix[0].length];
+        for (int i = 0; i < thisCopy.length; i++) {
+            for (int j = 0; j < thisCopy[0].length; j++) {
+            	thisCopy[i][j] = this.newMatrix[i][j];
+            }
+        }
+        int[][] returnArr = new int[thisCopy.length][thisCopy[0].length];
+
+        // scale
+        for (int i = 0; i < thisCopy.length; i++) {
+        	for (int j = 0; j < thisCopy[0].length; j++) {
+        		returnArr[i][j] = scalar * thisCopy[i][j];
         	}
         }
-        Matrix returnMatrix = new CompletedMatrix(copyMatrix);
+
+        // return
+        Matrix returnMatrix = new CompletedMatrix(returnArr);
         return returnMatrix;
     }
 
     @Override
     public Matrix plus(Matrix other) {
-        int[][] otherCopy = new int[other.getRows()][other.getColumns()]; 
-        int[][] thisCopy = this.newMatrix.clone();        
-
-        // exceptions
-        if (otherCopy == null) {
-            throw new java.lang.IllegalArgumentException("Inputted matrix must not be null");
+    	// null check
+    	if ((other == null) || (this == null)) {
+            throw new java.lang.IllegalArgumentException("Inputted matrix must not be null.");
         }
-        if (otherCopy.length != thisCopy.length || otherCopy[0].length != thisCopy.length) {
-            throw new java.lang.RuntimeException("Both matrices must have the same dimensions.")
+    	
+    	// matrix copies
+    	int[][] otherCopy = new int[other.getRows()][other.getColumns()]; 
+        for (int i = 0; i < otherCopy.length; i++) {
+            for (int j = 0; j < otherCopy[0].length; j++) {
+            	otherCopy[i][j] = other.getElement(i, j);
+            }
+        }
+        int[][] thisCopy = new int[this.newMatrix.length][this.newMatrix[0].length];
+        for (int i = 0; i < thisCopy.length; i++) {
+            for (int j = 0; j < thisCopy[0].length; j++) {
+            	thisCopy[i][j] = this.newMatrix[i][j];
+            }
+        }        
+
+        // dimensions check
+        if ((otherCopy.length != thisCopy.length) || (otherCopy[0].length != thisCopy[0].length)) {
+            throw new java.lang.RuntimeException("Both matrices must have the same dimensions.");
         }
 
         // addition
+        int[][] returnArr = new int[thisCopy.length][thisCopy[0].length];
         for (int i = 0; i < thisCopy.length; i++) {
             for (int j = 0; j < thisCopy[0].length; j++) {
-                thisCopy[i][j] = thisCopy[i][j] + otherCopy[i][j];
+            	returnArr[i][j] = thisCopy[i][j] + otherCopy[i][j];
             }
         }
 
         // return
-        Matrix returnMatrix = new CompletedMatrix(thisCopy);
+        Matrix returnMatrix = new CompletedMatrix(returnArr);
         return returnMatrix;
     }
 
     @Override
     public Matrix minus(Matrix other) {
-        int[][] otherCopy = new int[other.getRows()][other.getColumns()]; 
-        int[][] thisCopy = this.newMatrix.clone();        
-
-        // exceptions
-        if (otherCopy == null) {
-            throw new java.lang.IllegalArgumentException("Inputted matrix must not be null");
+    	// null check
+    	if ((other == null) || (this == null)) {
+            throw new java.lang.IllegalArgumentException("Inputted matrix must not be null.");
         }
-        if (otherCopy.length != thisCopy.length || otherCopy[0].length != thisCopy.length) {
-            throw new java.lang.RuntimeException("Both matrices must have the same dimensions.")
+    	
+    	// matrix copies
+    	int[][] otherCopy = new int[other.getRows()][other.getColumns()]; 
+        for (int i = 0; i < otherCopy.length; i++) {
+            for (int j = 0; j < otherCopy[0].length; j++) {
+            	otherCopy[i][j] = other.getElement(i, j);
+            }
         }
-
-        // subtraction
+        int[][] thisCopy = new int[this.newMatrix.length][this.newMatrix[0].length];
         for (int i = 0; i < thisCopy.length; i++) {
             for (int j = 0; j < thisCopy[0].length; j++) {
-                thisCopy[i][j] = thisCopy[i][j] - otherCopy[i][j];
+            	thisCopy[i][j] = this.newMatrix[i][j];
+            }
+        }       
+
+        // dimensions check
+        if ((otherCopy.length != thisCopy.length) || (otherCopy[0].length != thisCopy[0].length)) {
+            throw new java.lang.RuntimeException("Both matrices must have the same dimensions.");
+        }
+        
+        // subtraction
+        int[][] returnArr = new int[thisCopy.length][thisCopy[0].length];
+        for (int i = 0; i < thisCopy.length; i++) {
+            for (int j = 0; j < thisCopy[0].length; j++) {
+            	returnArr[i][j] = thisCopy[i][j] - otherCopy[i][j];
             }
         }
 
         // return
-        Matrix returnMatrix = new CompletedMatrix(thisCopy);
+        Matrix returnMatrix = new CompletedMatrix(returnArr);
         return returnMatrix;
     }
 
     @Override
     public Matrix multiply(Matrix other) {
-        throw new java.lang.UnsupportedOperationException("TODO!");
+    	// null check
+    	if ((other == null) || (this == null)) {
+            throw new java.lang.IllegalArgumentException("Inputted matrix must not be null.");
+        }
+    	
+    	// matrix copies
+        int[][] otherCopy = new int[other.getRows()][other.getColumns()];
+        for (int i = 0; i < otherCopy.length; i++) {
+            for (int j = 0; j < otherCopy[0].length; j++) {
+            	otherCopy[i][j] = other.getElement(i, j);
+            }
+        }
+        int[][] thisCopy = new int[this.newMatrix.length][this.newMatrix[0].length];
+        for (int i = 0; i < thisCopy.length; i++) {
+            for (int j = 0; j < thisCopy[0].length; j++) {
+            	thisCopy[i][j] = this.newMatrix[i][j];
+            }
+        } 
+        int[][] returnArr = new int[thisCopy.length][otherCopy[0].length];      
+
+        // dimensions check
+        if ((thisCopy[0].length != otherCopy.length)) {
+            throw new java.lang.RuntimeException("The inputted matrix does not have the proper dimensions.");
+        }
+
+        // multiplication
+        for (int i = 0; i < thisCopy.length; i++) {
+            for (int j = 0; j < otherCopy[0].length; j++) {
+                for (int k = 0; k < otherCopy.length; k++) {
+                	returnArr[i][j] += thisCopy[i][k] * otherCopy[k][j];
+                }
+            }
+        }
+        
+        Matrix returnMatrix = new CompletedMatrix(returnArr);
+        return returnMatrix;
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(Object other) {    	
+        // class checks
+        if (other == this) {
+            return true;
+        }
+        if ((other == null) || (this == null)) {
+            return false;
+        }
+        if (other.getClass() != this.getClass()) {
+            return false;
+        }
 
+        // equality check
+        Matrix otherMatrix = (CompletedMatrix) other;
+        if ((otherMatrix.getRows() != this.newMatrix.length) || (otherMatrix.getColumns() != this.newMatrix[0].length)) {
+            return false;
+        }
+        if ((otherMatrix.getRows() == 0) && (this.getRows() == 0)) {
+        	return true;
+        }
+        if ((otherMatrix.getRows() != 0) && (this.getRows() == 0)) {
+        	return false;
+        }
+        if ((otherMatrix.getRows() == 0) && (this.getRows() != 0)) {
+        	return false;
+        }
+    	for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                if (this.getElement(i, j) != otherMatrix.getElement(i, j)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     @Override
     public String toString() {
-        
+        Matrix thisCopy = new CompletedMatrix(this.newMatrix);
+    	String output = null;
+        for (int i = 0; i < thisCopy.getRows(); i++) {
+            for (int j = 0; j < thisCopy.getColumns(); j++) {
+                if ((i == 0) && (j == 0)) {
+                	output = thisCopy.getElement(i, j) + " ";
+                }
+                else if ((j == (thisCopy.getColumns() - 1)) && (i == (thisCopy.getRows() - 1))) {
+                    output = output + thisCopy.getElement(i, j) + "\n";
+                }
+                else if ((j == (thisCopy.getColumns() - 1)) && (i != (thisCopy.getRows() - 1))) {
+                    output = output + thisCopy.getElement(i, j) + "\n";
+                }
+                else { 
+                	output = output + thisCopy.getElement(i, j) + " ";
+                }
+            }
+        }
+
+        return output;
     }
 
     /**
