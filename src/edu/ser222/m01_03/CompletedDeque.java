@@ -146,6 +146,8 @@ public class CompletedDeque<Item> implements Deque<Item> {
                 tempNode.setPrevious(tempNode.getPrevious().getPrevious());
             }
 
+            output += tempNode.getElement() + "";
+
             return output;
         }
     }
