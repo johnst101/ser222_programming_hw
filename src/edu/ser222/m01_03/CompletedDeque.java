@@ -56,6 +56,14 @@ public class CompletedDeque<Item> implements Deque<Item> {
         if (this.isEmpty()) {
             throw new NoSuchElementException("The deque is empty.");
         }
+        else if (this.size == 1) {
+            CompletedNode<Item> tempNode = this.first;
+
+            this.first = null;
+            this.last = null;
+
+            return tempNode.element;
+        }
         else {
             CompletedNode<Item> tempNode = this.first;
             
@@ -69,6 +77,14 @@ public class CompletedDeque<Item> implements Deque<Item> {
     public Item dequeueBack() throws NoSuchElementException {
         if (this.isEmpty()) {
             throw new NoSuchElementException("The deque is empty.");
+        }
+        else if (this.size == 1) {
+            CompletedNode<Item> tempNode = this.last;
+
+            this.first = null;
+            this.last = null;
+
+            return tempNode.element;
         }
         else {
             CompletedNode<Item> tempNode = this.last;
@@ -91,7 +107,7 @@ public class CompletedDeque<Item> implements Deque<Item> {
 
     public Item last () throws NoSuchElementException {
         if (this.isEmpty()) {
-            throw new NoSuchElementException("The deque is empty.")
+            throw new NoSuchElementException("The deque is empty.");
         }
         else {
             return last.element;
