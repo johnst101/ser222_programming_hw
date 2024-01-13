@@ -33,6 +33,7 @@ public class CompletedDeque<Item> implements Deque<Item> {
         } else {
             DoubleLinearNode<Item> newNode = new DoubleLinearNode<Item>(element, this.first, null);
 
+            this.first.setPrevious(newNode);
             this.first = newNode;
             size++;
         }
@@ -49,6 +50,7 @@ public class CompletedDeque<Item> implements Deque<Item> {
         } else {
             DoubleLinearNode<Item> newNode = new DoubleLinearNode<Item>(element, null, this.last);
 
+            this.last.setNext(newNode);
             this.last = newNode;
             size++;
         }
