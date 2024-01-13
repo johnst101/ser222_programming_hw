@@ -95,7 +95,7 @@ public class CompletedDeque<Item> implements Deque<Item> {
             DoubleLinearNode<Item> tempNode = new DoubleLinearNode<Item>(this.last.getElement(), this.last.getNext(), this.last.getPrevious());
 
             this.last = tempNode.getPrevious();
-            this.last.setPrevious(null);
+            this.last.setNext(null);
             size--;
 
             return tempNode.getElement();
