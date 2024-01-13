@@ -3,70 +3,71 @@ package edu.ser222.m01_03;
 import java.util.NoSuchElementException;
 
 /**
- * This program provides an implementation of the Deque interface. Also provides a main that
+ * This program provides an implementation of the Deque interface. Also provides
+ * a main that
  * demonstrates it.
  * 
  * @author Tyler Johnson, Acuna
  * @version 1.0
  */
 
-
 public class CompletedDeque<Item> implements Deque<Item> {
     private CompletedNode<Item> first;
     private CompletedNode<Item> last;
     private int size;
 
-    public CompletedDeque () {
+    public CompletedDeque() {
         this.first = null;
         this.last = null;
         this.size = 0;
     }
 
-    public void enqueueFront (Item element) {
+    @Override
+    public void enqueueFront(Item element) {
         CompletedNode<Item> newNode = new CompletedNode<Item>(element);
-        
+
         if (this.isEmpty()) {
             this.first = newNode;
             this.last = newNode;
-            size ++;
-        }
-        else {
+            size++;
+        } else {
             newNode.next = this.first;
             this.first = newNode;
-            size ++;
+            size++;
         }
     }
 
-    public void enqueueBack (Item element) {
+    @Override
+    public void enqueueBack(Item element) {
         CompletedNode<Item> newNode = new CompletedNode<Item>(element);
-        
+
         if (this.isEmpty()) {
             this.first = newNode;
             this.last = newNode;
-            size ++;
-        }
-        else {
+            size++;
+        } else {
             newNode.previous = this.last;
             this.last = newNode;
-            size ++;
+            size++;
         }
     }
 
+    @Override
     public Item dequeueFront() throws NoSuchElementException {
         if (this.isEmpty()) {
             throw new NoSuchElementException("The deque is empty.");
-        }
-        else if (this.size == 1) {
-            CompletedNode<Item> tempNode = this.first;
+        } else if (this.size == 1) {
+            CompletedNode<Item> tempNode = new CompletedNode<Item>(this.first.element);
 
             this.first = null;
             this.last = null;
 
             return tempNode.element;
-        }
-        else {
-            CompletedNode<Item> tempNode = this.first;
-            
+        } else {
+            CompletedNode<Item> tempNode = new CompletedNode<Item>(this.first.element);
+            tempNode.next = this.first.getNext();
+            tempNode.previous = this.first.getprevious();
+
             this.first = tempNode.next;
             tempNode.next.previous = null;
 
@@ -74,21 +75,22 @@ public class CompletedDeque<Item> implements Deque<Item> {
         }
     }
 
+    @Override
     public Item dequeueBack() throws NoSuchElementException {
         if (this.isEmpty()) {
             throw new NoSuchElementException("The deque is empty.");
-        }
-        else if (this.size == 1) {
-            CompletedNode<Item> tempNode = this.last;
+        } else if (this.size == 1) {
+            CompletedNode<Item> tempNode = new CompletedNode<Item>(this.last.element);
 
             this.first = null;
             this.last = null;
 
             return tempNode.element;
-        }
-        else {
-            CompletedNode<Item> tempNode = this.last;
-            
+        } else {
+            CompletedNode<Item> tempNode = new CompletedNode<Item>(this.last.element);
+            tempNode.next = this.last.getNext();
+            tempNode.previous = this.last.getprevious();
+
             this.last = tempNode.previous;
             tempNode.previous.next = null;
 
@@ -96,30 +98,37 @@ public class CompletedDeque<Item> implements Deque<Item> {
         }
     }
 
-    public Item first () throws NoSuchElementException {
+    @Override
+    public Item first() throws NoSuchElementException {
         if (this.isEmpty()) {
             throw new NoSuchElementException("The deque is empty.");
-        }
-        else {
+        } else {
             return first.element;
         }
     }
 
-    public Item last () throws NoSuchElementException {
+    @Override
+    public Item last() throws NoSuchElementException {
         if (this.isEmpty()) {
             throw new NoSuchElementException("The deque is empty.");
-        }
-        else {
+        } else {
             return last.element;
         }
     }
 
-    public boolean isEmpty () {
+    @Override
+    public boolean isEmpty() {
         return size == 0;
     }
 
-    public int size () {
+    @Override
+    public int size() {
         return size;
+    }
+
+    @Override
+    public String toString() {
+
     }
 
     public class CompletedNode<Item> {
@@ -127,74 +136,75 @@ public class CompletedDeque<Item> implements Deque<Item> {
         private CompletedNode<Item> previous;
         private Item element;
 
-        public CompletedNode () {
+        public CompletedNode() {
             this.next = null;
             this.previous = null;
             this.element = null;
         }
 
-        public CompletedNode (Item elem) {
+        public CompletedNode(Item elem) {
             this.next = null;
             this.previous = null;
             this.element = elem;
         }
 
-        // public CompletedNode<Item> getNext () {
-        //     return next;
-        // }
+        public CompletedNode<Item> getNext () {
+        return next;
+        }
 
-        // public CompletedNode<Item> getprevious () {
-        //     return previous;
-        // }
+        public CompletedNode<Item> getprevious () {
+        return previous;
+        }
 
-        // public void setNext (CompletedNode<Item> nextNode) {
-        //     next = nextNode;
-        // }
+        public void setNext (CompletedNode<Item> nextNode) {
+        next = nextNode;
+        }
 
-        // public void setPrevious (CompletedNode<Item> previousNode) {
-        //     previous = previousNode;
-        // }
+        public void setPrevious (CompletedNode<Item> previousNode) {
+        previous = previousNode;
+        }
 
-        // public Item getElement () {
-        //     return element;
-        // }
+        public Item getElement () {
+        return element;
+        }
 
-        // public void setElement (Item elem) {
-        //     element = elem;
-        // }
+        public void setElement (Item elem) {
+        element = elem;
+        }
     }
 
     /**
-     * Program entry point for deque. 
+     * Program entry point for deque.
+     * 
      * @param args command line arguments
-     */    
+     */
     public static void main(String[] args) {
         CompletedDeque<Integer> deque = new CompletedDeque<>();
 
-        //standard queue behavior
+        // standard queue behavior
         deque.enqueueBack(3);
         deque.enqueueBack(7);
         deque.enqueueBack(4);
-        deque.dequeueFront();        
+        deque.dequeueFront();
         deque.enqueueBack(9);
         deque.enqueueBack(8);
         deque.dequeueFront();
         System.out.println("size: " + deque.size());
-        System.out.println("contents:\n" + deque.toString());   
+        System.out.println("contents:\n" + deque.toString());
 
-        //deque features
-        System.out.println(deque.dequeueFront());        
+        // deque features
+        System.out.println(deque.dequeueFront());
         deque.enqueueFront(1);
-        deque.enqueueFront(11);                         
-        deque.enqueueFront(3);                 
-        deque.enqueueFront(5);         
+        deque.enqueueFront(11);
+        deque.enqueueFront(3);
+        deque.enqueueFront(5);
         System.out.println(deque.dequeueBack());
-        System.out.println(deque.dequeueBack());        
-        System.out.println(deque.last());                
+        System.out.println(deque.dequeueBack());
+        System.out.println(deque.last());
         deque.dequeueFront();
-        deque.dequeueFront();        
-        System.out.println(deque.first());        
+        deque.dequeueFront();
+        System.out.println(deque.first());
         System.out.println("size: " + deque.size());
-        System.out.println("contents:\n" + deque.toString());            
+        System.out.println("contents:\n" + deque.toString());
     }
-} 
+}
