@@ -12,8 +12,8 @@ import java.util.NoSuchElementException;
  */
 
 public class CompletedDeque<Item> implements Deque<Item> {
-    private CompletedNode<Item> first;
-    private CompletedNode<Item> last;
+    private DoubleLinearNode<Item> first;
+    private DoubleLinearNode<Item> last;
     private int size;
 
     public CompletedDeque() {
@@ -24,7 +24,7 @@ public class CompletedDeque<Item> implements Deque<Item> {
 
     @Override
     public void enqueueFront(Item element) {
-        CompletedNode<Item> newNode = new CompletedNode<Item>(element);
+        DoubleLinearNode<Item> newNode = new DoubleLinearNode<Item>(element);
 
         if (this.isEmpty()) {
             this.first = newNode;
@@ -39,7 +39,7 @@ public class CompletedDeque<Item> implements Deque<Item> {
 
     @Override
     public void enqueueBack(Item element) {
-        CompletedNode<Item> newNode = new CompletedNode<Item>(element);
+        DoubleLinearNode<Item> newNode = new DoubleLinearNode<Item>(element);
 
         if (this.isEmpty()) {
             this.first = newNode;
@@ -57,19 +57,21 @@ public class CompletedDeque<Item> implements Deque<Item> {
         if (this.isEmpty()) {
             throw new NoSuchElementException("The deque is empty.");
         } else if (this.size == 1) {
-            CompletedNode<Item> tempNode = new CompletedNode<Item>(this.first.element);
+            DoubleLinearNode<Item> tempNode = new DoubleLinearNode<Item>(this.first.getElement());
 
             this.first = null;
             this.last = null;
+            size--;
 
             return tempNode.element;
         } else {
-            CompletedNode<Item> tempNode = new CompletedNode<Item>(this.first.element);
+            DoubleLinearNode<Item> tempNode = new DoubleLinearNode<Item>(this.first.getElement());
             tempNode.next = this.first.getNext();
-            tempNode.previous = this.first.getprevious();
+            tempNode.previous = this.first.getPrevious();
 
             this.first = tempNode.next;
             tempNode.next.previous = null;
+            size--;
 
             return tempNode.element;
         }
@@ -80,19 +82,21 @@ public class CompletedDeque<Item> implements Deque<Item> {
         if (this.isEmpty()) {
             throw new NoSuchElementException("The deque is empty.");
         } else if (this.size == 1) {
-            CompletedNode<Item> tempNode = new CompletedNode<Item>(this.last.element);
+            DoubleLinearNode<Item> tempNode = new DoubleLinearNode<Item>(this.last.getElement());
 
             this.first = null;
             this.last = null;
+            size--;
 
             return tempNode.element;
         } else {
-            CompletedNode<Item> tempNode = new CompletedNode<Item>(this.last.element);
+            DoubleLinearNode<Item> tempNode = new DoubleLinearNode<Item>(this.last.getElement());
             tempNode.next = this.last.getNext();
-            tempNode.previous = this.last.getprevious();
+            tempNode.previous = this.last.getPrevious();
 
             this.last = tempNode.previous;
             tempNode.previous.next = null;
+            size--;
 
             return tempNode.element;
         }
@@ -128,48 +132,52 @@ public class CompletedDeque<Item> implements Deque<Item> {
 
     @Override
     public String toString() {
+        String output = "";
 
+        if (isEmpty()) {
+            return output = "empty";
+        }
+        else {
+            DoubleLinearNode<Item> tempNode = new DoubleLinearNode<Item>(this.last.getElement());
+            tempNode.previous = this.last.getPrevious();
+
+            while (tempNode.getPrevious() != null) {
+                output += tempNode.getElement() + " ";
+                tempNode.element = tempNode.getPrevious().getElement();
+                tempNode.previous = tempNode.getPrevious().getPrevious();
+            }
+
+            return output;
+        }
     }
 
-    public class CompletedNode<Item> {
-        private CompletedNode<Item> next;
-        private CompletedNode<Item> previous;
+    public class DoubleLinearNode<Item> {
+        private DoubleLinearNode<Item> next;
+        private DoubleLinearNode<Item> previous;
         private Item element;
 
-        public CompletedNode() {
+        public DoubleLinearNode() {
             this.next = null;
             this.previous = null;
             this.element = null;
         }
 
-        public CompletedNode(Item elem) {
+        public DoubleLinearNode(Item elem) {
             this.next = null;
             this.previous = null;
             this.element = elem;
         }
 
-        public CompletedNode<Item> getNext () {
+        public DoubleLinearNode<Item> getNext () {
         return next;
         }
 
-        public CompletedNode<Item> getprevious () {
+        public DoubleLinearNode<Item> getPrevious () {
         return previous;
-        }
-
-        public void setNext (CompletedNode<Item> nextNode) {
-        next = nextNode;
-        }
-
-        public void setPrevious (CompletedNode<Item> previousNode) {
-        previous = previousNode;
         }
 
         public Item getElement () {
         return element;
-        }
-
-        public void setElement (Item elem) {
-        element = elem;
         }
     }
 
