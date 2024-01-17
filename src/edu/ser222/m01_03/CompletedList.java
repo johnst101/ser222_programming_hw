@@ -142,7 +142,17 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
 
     @Override
     public String toString() {
-        //TODO: complete toString
+        String output = "";
+
+        if (isEmpty()) {
+            return output = "empty";
+        } else {
+            while (this.iterator().hasNext()) {
+                output += this.iterator().next() + " ";
+            }
+
+            return output;
+        }
     }
 
     private class ListIterator implements Iterator<T> {
