@@ -1,5 +1,7 @@
 package edu.ser222.m01_03;
 
+import java.util.Objects;
+
 /**
  * Represents a node in a doubly linked list.
  *
@@ -45,5 +47,13 @@ public class DoubleLinearNode<T> {
 
     public void setElement(T elem ) {
         element = elem;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DoubleLinearNode<T> that = (DoubleLinearNode<T>) o;
+        return Objects.equals(element, that.element);
     }
 }

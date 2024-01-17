@@ -57,7 +57,7 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
         if (isEmpty()) {
             throw new NoSuchElementException("This list is empty. There is nothing to remove.")
         } else if (count == 1) {
-            DoubleLinearNode<T> tempNode = new DoubleLinearNode<>(head.getElement(), head.getNext(), head.getPrevious());
+            DoubleLinearNode<T> tempNode = new DoubleLinearNode<>(tail.getElement(), tail.getNext(), tail.getPrevious());
 
             head = null;
             tail = null;
@@ -66,7 +66,7 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
 
             return tempNode.getElement();
         } else {
-            DoubleLinearNode<T> tempNode = new DoubleLinearNode<>(head.getElement(), head.getNext(), head.getPrevious());
+            DoubleLinearNode<T> tempNode = new DoubleLinearNode<>(tail.getElement(), tail.getNext(), tail.getPrevious());
 
             tail = tempNode.getPrevious();
             tail.setNext(null);
@@ -82,26 +82,23 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
         if (isEmpty()) {
             throw new NoSuchElementException("This list is empty. There is nothing to remove.");
         } else {
-            for (T elem : this) {
-                if (elem == element) {
+            DoubleLinearNode<T> curNode = new DoubleLinearNode<>(head.getElement(), head.getNext(), head.getPrevious());
+            while (this.iterator().hasNext()) {
+                if (this.iterator().next() == element) {
                     if (count == 1) {
                         head = null;
                         tail = null;
-                        count--;
-                        modChange++;
 
-                        return elem;
                     } else {
-                        //TODO: previous' next is current's next
-                        //TODO: next's previous is current's previous
-                        count--;
-                        modChange++;
-
-                        return elem;
+                        curNode.getPrevious().setNext(curNode.getNext());
+                        curNode.getNext().setPrevious(curNode.getPrevious());
                     }
+                    count--;
+                    modChange++;
+                    return curNode.getElement();
                 }
+                curNode = curNode.getNext();
             }
-            modChange++;
         }
     }
 
@@ -123,7 +120,10 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
 
     @Override
     public boolean contains(T target) {
-        //TODO: complete contains
+        for (T elem : this) {
+            return elem == target;
+        }
+
         return false;
     }
 
