@@ -11,7 +11,6 @@ import java.util.NoSuchElementException;
  */
 public class CompletedList<T> implements ListADT<T>, Iterable<T> {
     //The following three variables are a suggested start if you are using a list implementation.
-    //TODO: confirm these are the only needed members
     protected int count;
     protected int modChange;
     protected DoubleLinearNode<T> head, tail;
@@ -22,15 +21,11 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
         head = null;
         tail = null;
     }
-//TODO: Confirm if needed
-//    public CompletedList() {
-//
-//    }
 
     @Override
     public T removeFirst() throws NoSuchElementException {
         if (isEmpty()) {
-            throw new NoSuchElementException("This list is empty. There is nothing to remove.")
+            throw new NoSuchElementException("This list is empty. There is nothing to remove.");
         } else if (count == 1) {
             DoubleLinearNode<T> tempNode = new DoubleLinearNode<>(head.getElement(), head.getNext(), head.getPrevious());
 
@@ -55,7 +50,7 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
     @Override
     public T removeLast() throws NoSuchElementException {
         if (isEmpty()) {
-            throw new NoSuchElementException("This list is empty. There is nothing to remove.")
+            throw new NoSuchElementException("This list is empty. There is nothing to remove.");
         } else if (count == 1) {
             DoubleLinearNode<T> tempNode = new DoubleLinearNode<>(tail.getElement(), tail.getNext(), tail.getPrevious());
 
@@ -99,13 +94,15 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
                 }
                 curNode = curNode.getNext();
             }
+
+            return null;
         }
     }
 
     @Override
     public T first() {
         if (isEmpty()) {
-            throw new NoSuchElementException("This list is empty. There is nothing to remove.")
+            throw new NoSuchElementException("This list is empty. There is nothing to remove.");
         }
         return head.getElement();
     }
@@ -113,7 +110,7 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
     @Override
     public T last() {
         if (isEmpty()) {
-            throw new NoSuchElementException("This list is empty. There is nothing to remove.")
+            throw new NoSuchElementException("This list is empty. There is nothing to remove.");
         }
         return tail.getElement();
     }
