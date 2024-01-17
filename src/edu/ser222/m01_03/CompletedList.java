@@ -22,8 +22,8 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
         head = null;
         tail = null;
     }
-//MAY NOT BE NEEDED
-//    public CompletedList() { //TODO: complete input fed constructor??
+//TODO: Confirm if needed
+//    public CompletedList() {
 //
 //    }
 
@@ -31,20 +31,22 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
     public T removeFirst() throws NoSuchElementException {
         if (isEmpty()) {
             throw new NoSuchElementException("This list is empty. There is nothing to remove.")
-        } else if(count == 1) {
+        } else if (count == 1) {
             DoubleLinearNode<T> tempNode = new DoubleLinearNode<>(head.getElement(), head.getNext(), head.getPrevious());
 
             head = null;
             tail = null;
             count--;
+            modChange++;
 
             return tempNode.getElement();
         } else {
             DoubleLinearNode<T> tempNode = new DoubleLinearNode<>(head.getElement(), head.getNext(), head.getPrevious());
 
-            first = tempNode.getNext();
-            first.setPrevious(null);
+            head = tempNode.getNext();
+            head.setPrevious(null);
             count--;
+            modChange++;
 
             return tempNode.getElement();
         }
@@ -54,28 +56,53 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
     public T removeLast() throws NoSuchElementException {
         if (isEmpty()) {
             throw new NoSuchElementException("This list is empty. There is nothing to remove.")
-        } else if(count == 1) {
+        } else if (count == 1) {
             DoubleLinearNode<T> tempNode = new DoubleLinearNode<>(head.getElement(), head.getNext(), head.getPrevious());
 
             head = null;
             tail = null;
             count--;
+            modChange++;
 
             return tempNode.getElement();
         } else {
             DoubleLinearNode<T> tempNode = new DoubleLinearNode<>(head.getElement(), head.getNext(), head.getPrevious());
 
-            last = tempNode.getPrevious();
-            last.setNext(null);
+            tail = tempNode.getPrevious();
+            tail.setNext(null);
             count--;
+            modChange++;
 
             return tempNode.getElement();
         }
     }
 
     @Override
-    public T remove(T element) { //TODO: complete remove
-        return null;
+    public T remove(T element) {
+        if (isEmpty()) {
+            throw new NoSuchElementException("This list is empty. There is nothing to remove.");
+        } else {
+            for (T elem : this) {
+                if (elem == element) {
+                    if (count == 1) {
+                        head = null;
+                        tail = null;
+                        count--;
+                        modChange++;
+
+                        return elem;
+                    } else {
+                        //TODO: previous' next is current's next
+                        //TODO: next's previous is current's previous
+                        count--;
+                        modChange++;
+
+                        return elem;
+                    }
+                }
+            }
+            modChange++;
+        }
     }
 
     @Override
@@ -95,14 +122,13 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
     }
 
     @Override
-    public boolean contains(T target) { //TODO: complete contains
+    public boolean contains(T target) {
+        //TODO: complete contains
         return false;
     }
 
     @Override
-    public boolean isEmpty() {
-        return count == 0;
-    }
+    public boolean isEmpty() { return count == 0; }
 
     @Override
     public int size() {
@@ -110,7 +136,38 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
     }
 
     @Override
-    public Iterator<T> iterator() { //TODO: complete iterator
-        return null;
+    public Iterator<T> iterator() {
+        return new ListIterator();
+    }
+
+    @Override
+    public String toString() {
+        //TODO: complete toString
+    }
+
+    private class ListIterator implements Iterator<T> {
+        private final int modCounted = modChange;
+        private DoubleLinearNode<T> iter = head;
+
+        public boolean hasNext() {
+            return iter != null;
+        }
+
+        public T next() {
+            if (!hasNext())
+                throw new NoSuchElementException();
+
+            if (modChange != modCounted)
+                throw new java.util.ConcurrentModificationException();
+
+            T element = iter.getElement();
+            iter = iter.getNext();
+
+            return element;
+        }
+
+        public void remove() {
+            throw new java.lang.UnsupportedOperationException();
+        }
     }
 }
