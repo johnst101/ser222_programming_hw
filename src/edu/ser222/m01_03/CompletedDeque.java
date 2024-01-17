@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
  * This program provides an implementation of the Deque interface. Also provides
  * a main that
  * demonstrates it.
- * 
+ *
  * @author Tyler Johnson, Acuna
  * @version 1.0
  */
@@ -136,8 +136,7 @@ public class CompletedDeque<Item> implements Deque<Item> {
 
         if (isEmpty()) {
             return output = "empty";
-        }
-        else {
+        } else {
             DoubleLinearNode<Item> tempNode = new DoubleLinearNode<Item>(this.last.getElement(), this.last.getNext(), this.last.getPrevious());
 
             while (tempNode.getPrevious() != null) {
@@ -149,48 +148,6 @@ public class CompletedDeque<Item> implements Deque<Item> {
             output += tempNode.getElement() + "";
 
             return output;
-        }
-    }
-
-    public class DoubleLinearNode<Item> {
-        private DoubleLinearNode<Item> next;
-        private DoubleLinearNode<Item> previous;
-        private Item element;
-
-        public DoubleLinearNode() {
-            this.next = null;
-            this.previous = null;
-            this.element = null;
-        }
-
-        public DoubleLinearNode(Item elem, DoubleLinearNode<Item> nextNode, DoubleLinearNode<Item> previousNode) {
-            this.next = nextNode;
-            this.previous = previousNode;
-            this.element = elem;
-        }
-
-        public void setNext(DoubleLinearNode<Item> nextNode) {
-            this.next = nextNode;
-        }
-
-        public DoubleLinearNode<Item> getNext () {
-        return next;
-        }
-
-        public void setPrevious(DoubleLinearNode<Item> previousNode) {
-            this.previous = previousNode;
-        }
-
-        public DoubleLinearNode<Item> getPrevious () {
-        return previous;
-        }
-
-        public void setElement(Item elem ) {
-            this.element = elem;
-        }
-
-        public Item getElement () {
-        return element;
         }
     }
 
