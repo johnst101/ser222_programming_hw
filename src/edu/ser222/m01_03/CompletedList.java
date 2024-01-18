@@ -95,8 +95,7 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
                 }
                 curNode = curNode.getNext();
             }
-
-            return null;
+            throw new NoSuchElementException();
         }
     }
 

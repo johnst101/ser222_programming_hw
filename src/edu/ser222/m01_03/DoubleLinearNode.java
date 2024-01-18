@@ -1,7 +1,5 @@
 package edu.ser222.m01_03;
 
-import java.util.Objects;
-
 /**
  * Represents a node in a doubly linked list.
  *
