@@ -78,8 +78,8 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
             throw new NoSuchElementException("This list is empty. There is nothing to remove.");
         } else {
             DoubleLinearNode<T> curNode = new DoubleLinearNode<>(head.getElement(), head.getNext(), head.getPrevious());
-            while (this.iterator().hasNext()) {
-                if (this.iterator().next() == element) {
+            for (T elem : this) {
+                if (elem == element) {
                     if (count == 1) {
                         head = null;
                         tail = null;
@@ -144,8 +144,8 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
         if (isEmpty()) {
             return output = "empty";
         } else {
-            while (this.iterator().hasNext()) {
-                output += this.iterator().next() + " ";
+            for (T elem : this) {
+                output += elem + " ";
             }
 
             return output;

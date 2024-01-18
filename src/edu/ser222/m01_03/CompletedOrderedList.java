@@ -24,7 +24,7 @@ public class CompletedOrderedList<T extends Comparable<T>> extends CompletedList
         } else {
             DoubleLinearNode<T> curNode = new DoubleLinearNode<>(head.getElement(), head.getNext(), head.getPrevious());
 
-            while (iterator().hasNext()) {
+            for (T elem : this) {
                 if (element.compareTo(curNode.getElement()) <= 0) {
                     if (curNode.equals(head)) {
                         newNode.setNext(head);
@@ -32,12 +32,7 @@ public class CompletedOrderedList<T extends Comparable<T>> extends CompletedList
                         head = newNode;
                         count++;
                         modChange++;
-                    } else if (curNode.equals(tail)) {
-                        newNode.setPrevious(tail);
-                        tail.setNext(newNode);
-                        tail = newNode;
-                        count++;
-                        modChange++;
+                        return;
                     } else {
                         newNode.setNext(curNode);
                         newNode.setPrevious(curNode.getPrevious());
@@ -45,11 +40,18 @@ public class CompletedOrderedList<T extends Comparable<T>> extends CompletedList
                         curNode.setPrevious(newNode);
                         count++;
                         modChange++;
+                        return;
                     }
+                } else if ((element.compareTo(curNode.getElement()) > 0) && (curNode.getNext() == null)) {
+                    newNode.setPrevious(tail);
+                    tail.setNext(newNode);
+                    tail = newNode;
+                    count++;
+                    modChange++;
+                    return;
                 }
 
                 curNode = curNode.getNext();
-                iterator().next();
             }
         }
     }
