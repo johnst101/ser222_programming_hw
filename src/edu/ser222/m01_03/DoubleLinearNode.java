@@ -49,11 +49,8 @@ public class DoubleLinearNode<T> {
         element = elem;
     }
 
-    @Override
-    public boolean equals(Object o) {
+    public boolean equals(DoubleLinearNode<T> o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DoubleLinearNode<T> that = (DoubleLinearNode<T>) o;
-        return Objects.equals(element, that.element);
+        return (o.getElement() == this.getElement()) && (o.getNext() == this.getNext()) && (o.getPrevious() == this.getPrevious());
     }
 }

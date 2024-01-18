@@ -2,6 +2,7 @@ package edu.ser222.m01_03;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.ConcurrentModificationException;
 
 /**
  * CompletedList represents an implementation of a list.
@@ -165,7 +166,7 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
                 throw new NoSuchElementException();
 
             if (modChange != modCounted)
-                throw new java.util.ConcurrentModificationException();
+                throw new ConcurrentModificationException();
 
             T element = iter.getElement();
             iter = iter.getNext();
@@ -174,7 +175,7 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
         }
 
         public void remove() {
-            throw new java.lang.UnsupportedOperationException();
+            throw new UnsupportedOperationException();
         }
     }
 }

@@ -5,8 +5,8 @@ import java.util.Iterator;
 /**
  * CompletedOrderedList testing area.
  * 
- * @author (your name), Acuna
- * @version (version)
+ * @author Tyler Johnson, Acuna
+ * @version 1.0
  */
 public class Driver {
     public static void main(String [] args) {
