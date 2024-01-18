@@ -29,9 +29,30 @@ public class CompletedOrderedList<T extends Comparable<T>> extends CompletedList
 
             while (list.iterator().hasNext()) {
                 if (element.compareTo(curNode.getElement()) <= 0) {
-                    //TODO: complete add
-
+                    if (curNode.equals(list.head)) {
+                        newNode.setNext(list.head);
+                        list.head.setPrevious(newNode);
+                        list.head = newNode;
+                        list.count++;
+                        list.modChange++;
+                    } else if (curNode.equals(list.tail)) {
+                        newNode.setPrevious(list.tail);
+                        list.tail.setNext(newNode);
+                        list.tail = newNode;
+                        list.count++;
+                        list.modChange++;
+                    } else {
+                        newNode.setNext(curNode);
+                        newNode.setPrevious(curNode.getPrevious());
+                        curNode.getPrevious().setNext(newNode);
+                        curNode.setPrevious(newNode);
+                        list.count++;
+                        list.modChange++;
+                    }
                 }
+
+                curNode = curNode.getNext();
+                list.iterator().next();
             }
         }
     }
