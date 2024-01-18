@@ -80,7 +80,7 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
         } else {
             DoubleLinearNode<T> curNode = new DoubleLinearNode<>(head.getElement(), head.getNext(), head.getPrevious());
             for (T elem : this) {
-                if (elem == element) {
+                if (elem.equals(element)) {
                     if (count == 1) {
                         head = null;
                         tail = null;
@@ -118,7 +118,7 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
     @Override
     public boolean contains(T target) {
         for (T elem : this) {
-            return elem == target;
+            return elem.equals(target);
         }
 
         return false;
