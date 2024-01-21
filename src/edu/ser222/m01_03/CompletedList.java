@@ -157,6 +157,9 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
         private DoubleLinearNode<T> iter = head;
 
         public boolean hasNext() {
+            if (modChange != modCounted) {
+                throw new ConcurrentModificationException();
+            }
             return iter != null;
         }
 
