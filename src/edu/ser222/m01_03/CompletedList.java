@@ -84,18 +84,22 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
                     if (count == 1) {
                         head = null;
                         tail = null;
-
+                        count--;
+                        modChange++;
+                        return curNode.getElement();
                     } else if (curNode.equals(head)) {
                         removeFirst();
+                        return null;
                     } else if (curNode.equals(tail)) {
                         removeLast();
+                        return null;
                     } else {
                         curNode.getPrevious().setNext(curNode.getNext());
                         curNode.getNext().setPrevious(curNode.getPrevious());
+                        count--;
+                        modChange++;
+                        return curNode.getElement();
                     }
-                    count--;
-                    modChange++;
-                    return curNode.getElement();
                 }
                 curNode = curNode.getNext();
             }
