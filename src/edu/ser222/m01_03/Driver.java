@@ -5,8 +5,8 @@ import java.util.Iterator;
 /**
  * CompletedOrderedList testing area.
  * 
- * @author (your name), Acuna
- * @version (version)
+ * @author Tyler Johnson, Acuna
+ * @version 1.0
  */
 public class Driver {
     public static void main(String [] args) {
@@ -15,24 +15,41 @@ public class Driver {
         //RA: These are _extremely_ simple tests! You will need to write more!
         
         list.add(23);
-        list.add(24);	
+        System.out.println("Got Here 1");
+        list.add(24);
+        System.out.println("Got Here 2");
         list.add(16);
-        list.add(3);	
+        System.out.println("Got Here 3");
+        list.add(3);
+        System.out.println("Got Here 4");
         list.add(7);
-        list.add(17);	
-        list.add(9);	
-        list.add(13);	
-        list.add(14);	
+        System.out.println("Got Here 5");
+        list.add(17);
+        System.out.println("Got Here 6");
+        list.add(9);
+        System.out.println("Got Here 7");
+        list.add(13);
+        System.out.println("Got Here 8");
+        list.add(14);
+        System.out.println("Got Here 9");
         list.add(1);
+        System.out.println("Got Here 10");
 
         System.out.println(list);
+        System.out.println("Got Here 11");
         
         list.remove(7);
+        System.out.println("Got Here 12");
         list.removeFirst();
+        System.out.println("Got Here 13");
         list.remove(17);
+        System.out.println("Got Here 14");
         list.removeLast();
+        System.out.println("Got Here 15");
         list.remove(14);
+        System.out.println("Got Here 16");
         list.removeLast();
+        System.out.println("Got Here 17");
 
         //display using toString()
         System.out.println(list);
