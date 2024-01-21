@@ -85,6 +85,10 @@ public class CompletedList<T> implements ListADT<T>, Iterable<T> {
                         head = null;
                         tail = null;
 
+                    } else if (curNode.equals(head)) {
+                        removeFirst();
+                    } else if (curNode.equals(tail)) {
+                        removeLast();
                     } else {
                         curNode.getPrevious().setNext(curNode.getNext());
                         curNode.getNext().setPrevious(curNode.getPrevious());
