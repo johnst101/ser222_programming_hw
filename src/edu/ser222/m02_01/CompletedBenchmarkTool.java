@@ -118,7 +118,7 @@ public class CompletedBenchmarkTool implements BenchmarkTool {
 
     @Override
     public double computeDoublingFormula(double t1, double t2) {
-        return 0;
+        return Math.log(t2 / t1) / Math.log(2);
     }
 
     @Override
@@ -179,8 +179,7 @@ public class CompletedBenchmarkTool implements BenchmarkTool {
 
     public static void main(String args[]) {
         BenchmarkTool me = new CompletedBenchmarkTool();
-        int size = 4096;
-
+        int size = 1048576;
         //NOTE: feel free to change size here. all other code must go in the
         //      methods.
 
