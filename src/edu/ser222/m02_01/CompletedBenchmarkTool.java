@@ -1,17 +1,20 @@
 package edu.ser222.m02_01;
 
+import java.text.DecimalFormat;
+import java.util.Random;
+
 /**
- * (basic description of the program or class)
+ * TODO: description
  * 
- * Completion time: (estimation of hours spent on this program)
+ * Completion time: TODO: (estimation of hours spent on this program)
  *
- * @author (your name), Acuna, Sedgewick
- * @version (a version number or a date)
+ * @author Tyler Johnson, Acuna, Sedgewick
+ * @version 1.0
  */
 
 
 public class CompletedBenchmarkTool implements BenchmarkTool {
-    
+
     /***************************************************************************
      * START - SORTING UTILITIES, DO NOT MODIFY (FROM SEDGEWICK)               *
      **************************************************************************/
@@ -60,14 +63,78 @@ public class CompletedBenchmarkTool implements BenchmarkTool {
      **************************************************************************/
 
     //TODO: implement interface methods.
+    @java.lang.Override
+    public Integer[] generateTestDataBinary(int size) {
+        Integer[] binTest = new Integer[size];
+
+        for (int i = 0; i < size / 2; i++) {
+            binTest[i] = 0;
+        }
+        for (int j = size / 2; j < size; j++) {
+            binTest[j] = 1;
+        }
+
+        return binTest;
+    }
+
+    @java.lang.Override
+    public Integer[] generateTestDataHalves(int size) {
+        Integer[] halfTest = new Integer[size];
+        int h = 1;
+        int halfStart = size / 2;
+        int fillLength;
+
+        for (int i = 0; i < size / 2; i++) {
+            halfTest[i] = 0;
+        }
+        while (halfStart < size) {
+            fillLength = (size - halfStart) / 2
+        }
+
+    }
+
+    @java.lang.Override
+    public Integer[] generateTestDataHalfRandom(int size) {
+        Integer[] randIntTest = new Integer[size];
+        Random rand = new Random();//FIXME: potentially wrong
+
+        for (int i = 0; i < size / 2; i++) {
+            randIntTest[i] = 0;
+        }
+        for (int j = size / 2; j < size; j++) {
+            randIntTest[j] = rand.nextInt(Integer.MAX_VALUE); //FIXME: potentially wrong
+        }
+
+        return randIntTest;
+    }
+
+    @java.lang.Override
+    public double computeDoublingFormula(double t1, double t2) {
+        return 0;
+    }
+
+    @java.lang.Override
+    public double benchmarkInsertionSort(Integer[] small, Integer[] large) {
+        return 0;
+    }
+
+    @java.lang.Override
+    public double benchmarkShellsort(Integer[] small, Integer[] large) {
+        return 0;
+    }
+
+    @java.lang.Override
+    public void runBenchmarks(int size) {
+
+    }
 
     public static void main(String args[]) {
         BenchmarkTool me = new CompletedBenchmarkTool();
         int size = 4096;
-        
+
         //NOTE: feel free to change size here. all other code must go in the
         //      methods.
-        
+
         me.runBenchmarks(size);
     }
 }

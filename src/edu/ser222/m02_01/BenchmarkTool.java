@@ -10,12 +10,11 @@ package edu.ser222.m02_01;
  */
 public interface BenchmarkTool {
     
-    /*
-    * Generates an array of integers where half the data is 0s, half 1s.
-    
+    /**
+     * Generates an array of integers where half the data is 0s, half 1s.
      * @param size number of elements in the array.
      * @return generated test set.
-    */
+     */
     public Integer[] generateTestDataBinary(int size);
     
     /**
