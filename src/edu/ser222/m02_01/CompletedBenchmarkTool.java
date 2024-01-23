@@ -63,7 +63,7 @@ public class CompletedBenchmarkTool implements BenchmarkTool {
      **************************************************************************/
 
     //TODO: implement interface methods.
-    @java.lang.Override
+    @Override
     public Integer[] generateTestDataBinary(int size) {
         Integer[] binTest = new Integer[size];
 
@@ -77,7 +77,7 @@ public class CompletedBenchmarkTool implements BenchmarkTool {
         return binTest;
     }
 
-    @java.lang.Override
+    @Override
     public Integer[] generateTestDataHalves(int size) {
         Integer[] halfTest = new Integer[size];
         int h = 1;
@@ -89,6 +89,9 @@ public class CompletedBenchmarkTool implements BenchmarkTool {
         }
         while (halfStart < size) {
             fillLength = (size - halfStart) / 2;
+            if (fillLength == 0) {
+                fillLength = 1;
+            }
             for (int j = 0; j < fillLength; j++) {
                 halfTest[halfStart + j] = h;
             }
@@ -98,39 +101,80 @@ public class CompletedBenchmarkTool implements BenchmarkTool {
         return halfTest;
     }
 
-    @java.lang.Override
+    @Override
     public Integer[] generateTestDataHalfRandom(int size) {
         Integer[] randIntTest = new Integer[size];
-        Random rand = new Random();//FIXME: potentially wrong
+        Random rand = new Random();
 
         for (int i = 0; i < size / 2; i++) {
             randIntTest[i] = 0;
         }
         for (int j = size / 2; j < size; j++) {
-            randIntTest[j] = rand.nextInt(Integer.MAX_VALUE); //FIXME: potentially wrong
+            randIntTest[j] = rand.nextInt(Integer.MAX_VALUE);
         }
 
         return randIntTest;
     }
 
-    @java.lang.Override
+    @Override
     public double computeDoublingFormula(double t1, double t2) {
         return 0;
     }
 
-    @java.lang.Override
+    @Override
     public double benchmarkInsertionSort(Integer[] small, Integer[] large) {
-        return 0;
+        double t1;
+        double t2;
+
+        Stopwatch sw1 = new Stopwatch();
+        insertionSort(small);
+        t1 = sw1.elapsedTime();
+        
+        Stopwatch sw2 = new Stopwatch();
+        insertionSort(large);
+        t2 = sw2.elapsedTime();
+        
+        return computeDoublingFormula(t1, t2);
     }
 
-    @java.lang.Override
+    @Override
     public double benchmarkShellsort(Integer[] small, Integer[] large) {
-        return 0;
+        double t1;
+        double t2;
+
+        Stopwatch sw1 = new Stopwatch();
+        shellsort(small);
+        t1 = sw1.elapsedTime();
+
+        Stopwatch sw2 = new Stopwatch();
+        shellsort(large);
+        t2 = sw2.elapsedTime();
+
+        return computeDoublingFormula(t1, t2);
     }
 
-    @java.lang.Override
+    @Override
     public void runBenchmarks(int size) {
+        DecimalFormat formatter = new DecimalFormat("#0.000");
 
+        Integer[] binSmall = generateTestDataBinary(size);
+        Integer[] binLarge = generateTestDataBinary(2 * size);
+        Integer[] halfSmall = generateTestDataHalves(size);
+        Integer[] halfLarge = generateTestDataHalves(2 * size);
+        Integer[] randSmall = generateTestDataHalfRandom(size);
+        Integer[] randLarge = generateTestDataHalfRandom(2 * size);
+
+        double insertionBin = benchmarkInsertionSort(binSmall, binLarge);
+        double shellBin = benchmarkShellsort(binSmall, binLarge);
+        double insertionHalf = benchmarkInsertionSort(halfSmall, halfLarge);
+        double shellHalf = benchmarkShellsort(halfSmall, halfLarge);
+        double insertionRand = benchmarkInsertionSort(randSmall, randLarge);
+        double shellRand = benchmarkShellsort(randSmall, randLarge);
+
+        System.out.println("       Insertion\tShellsort");
+        System.out.println("Bin    " + formatter.format(insertionBin) + "    \t" + formatter.format(shellBin) + "    ");
+        System.out.println("Half   " + formatter.format(insertionHalf) + "    \t" + formatter.format(shellHalf) + "    ");
+        System.out.println("RanInt " + formatter.format(insertionRand) + "    \t" + formatter.format(shellRand) + "    ");
     }
 
     public static void main(String args[]) {
