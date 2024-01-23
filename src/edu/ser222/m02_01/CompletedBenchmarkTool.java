@@ -82,15 +82,20 @@ public class CompletedBenchmarkTool implements BenchmarkTool {
         Integer[] halfTest = new Integer[size];
         int h = 1;
         int halfStart = size / 2;
-        int fillLength;
+        int fillLength = 0;
 
         for (int i = 0; i < size / 2; i++) {
             halfTest[i] = 0;
         }
         while (halfStart < size) {
-            fillLength = (size - halfStart) / 2
+            fillLength = (size - halfStart) / 2;
+            for (int j = 0; j < fillLength; j++) {
+                halfTest[halfStart + j] = h;
+            }
+            h++;
+            halfStart += fillLength;
         }
-
+        return halfTest;
     }
 
     @java.lang.Override
