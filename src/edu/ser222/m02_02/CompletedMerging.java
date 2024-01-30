@@ -3,12 +3,12 @@ package edu.ser222.m02_02;
 /**
  * Implements various divide and conquer algorithms.
  *
- * Last updated 4/2/2022.
+ * Last updated 01/30/24.
  *
- * Completion time: (your completion time)
+ * Completion time: (your completion time) TODO: fill in
  *
- * @author (your name), Acuna, Sedgewick and Wayne
- * @verison (version)
+ * @author Tyler Johnson, Acuna, Sedgewick and Wayne
+ * @verison 1.0
  */
 import java.util.Random;
 
@@ -18,7 +18,14 @@ public class CompletedMerging implements MergingAlgorithms {
     @Override
     public <T extends Comparable> Queue<T> mergeQueues(Queue<T> q1, Queue<T> q2) {
         //TODO: implement this!
-        return null;
+        Queue<T> mergedQueue = new ListQueue<>();
+        //assert isSorted(q1);
+        //assert isSorted(q2);
+        T i = q1.peek(), j = q2.peek();
+
+        // merge backwards and dequeue as you go
+
+        return mergedQueue;
     }
 
     @Override
