@@ -22,8 +22,9 @@ public class CompletedMerging implements MergingAlgorithms {
         //assert isSorted(q1);
         //assert isSorted(q2);
         T i = q1.peek(), j = q2.peek();
+        for (int k = ; k < q1.size() + q2.size(); k++) {
 
-        // merge backwards and dequeue as you go
+        }
 
         return mergedQueue;
     }
