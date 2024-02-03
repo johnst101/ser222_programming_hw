@@ -5,7 +5,7 @@ package edu.ser222.m02_02;
  *
  * Last updated 02/3/24.
  *
- * Completion time: 3.0 hours TODO: fill in
+ * Completion time: 5.0 hours TODO: fill in
  *
  * @author Tyler Johnson, Acuna, Sedgewick and Wayne
  * @verison 1.0
