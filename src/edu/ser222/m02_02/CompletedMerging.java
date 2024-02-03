@@ -41,6 +41,7 @@ public class CompletedMerging implements MergingAlgorithms {
     @Override
     public void sort(Comparable[] a) {
         //TODO: implement this!
+
     }
 
     @Override
@@ -51,8 +52,38 @@ public class CompletedMerging implements MergingAlgorithms {
 
     @Override
     public Comparable[] merge(Comparable[] a, Comparable[] b) {
-        //TODO: implement this!
-        return null;
+        Comparable[] newArray = new Comparable[a.length + b.length];
+
+        int i = 0, j = 0, k = 0;
+        while ((i < a.length) || (j < b.length)) {
+            if (i >= a.length) {
+                newArray[k] = b[j];
+                j++;
+                k++;
+                continue;
+            }
+            if (j >= b.length) {
+                newArray[k] = a[i];
+                i++;
+                k++;
+                continue;
+            }
+            if (less(a[i],b[j])) {
+                newArray[k] = a[i];
+                i++;
+                k++;
+            } else {
+                newArray[k] = b[j];
+                j++;
+                k++;
+            }
+        }
+        //TODO: double check below requirements are met and remove comments
+        //types must match between input arrays
+        //input arrays must not change
+        //input arrays must not be returned as the result
+        //can assume input does not contain nulls
+        return newArray;
     }
 
     @Override
@@ -82,6 +113,10 @@ public class CompletedMerging implements MergingAlgorithms {
         
         //Q2 - sample test cases
         String[] a = {"S", "O", "R", "T", "E", "X", "A", "M", "P", "L", "E"};
+        String[] test1 = {"A", "B", "C", "D", "F", "J", "X"};
+        String[] test2 = {"B", "G", "J", "L", "O", "Q"};
+        Comparable[] test = ma.merge(test1,test2);
+        show(test);
         ma.sort(a);
         assert isSorted(a);
         show(a);
