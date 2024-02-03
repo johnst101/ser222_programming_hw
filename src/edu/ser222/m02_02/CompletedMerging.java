@@ -3,9 +3,9 @@ package edu.ser222.m02_02;
 /**
  * Implements various divide and conquer algorithms.
  *
- * Last updated 01/30/24.
+ * Last updated 02/3/24.
  *
- * Completion time: (your completion time) TODO: fill in
+ * Completion time: 3.0 hours TODO: fill in
  *
  * @author Tyler Johnson, Acuna, Sedgewick and Wayne
  * @verison 1.0
@@ -19,11 +19,21 @@ public class CompletedMerging implements MergingAlgorithms {
     public <T extends Comparable> Queue<T> mergeQueues(Queue<T> q1, Queue<T> q2) {
         //TODO: implement this!
         Queue<T> mergedQueue = new ListQueue<>();
-        //assert isSorted(q1);
-        //assert isSorted(q2);
-        T i = q1.peek(), j = q2.peek();
-        for (int k = ; k < q1.size() + q2.size(); k++) {
-
+        while(!q1.isEmpty() || !q2.isEmpty()) {
+            if (q1.isEmpty()) {
+                mergedQueue.enqueue(q2.dequeue());
+                continue;
+            }
+            if (q2.isEmpty()) {
+                mergedQueue.enqueue(q1.dequeue());
+                continue;
+            }
+            T i = q1.peek(), j = q2.peek();
+            if (less(i,j)) {
+                mergedQueue.enqueue(q1.dequeue());
+            } else {
+                mergedQueue.enqueue(q2.dequeue());
+            }
         }
 
         return mergedQueue;
@@ -58,6 +68,7 @@ public class CompletedMerging implements MergingAlgorithms {
      */
     public static void main(String[] args) {
         Queue<String> q1 = new ListQueue<>(); q1.enqueue("E"); q1.enqueue("L"); q1.enqueue("O"); q1.enqueue("R"); q1.enqueue("T");
+        System.out.println(q1.toString());
         Queue<String> q2 = new ListQueue<>(); q2.enqueue("A"); q2.enqueue("E"); q2.enqueue("M"); q2.enqueue("P"); q2.enqueue("S"); q2.enqueue("X");
         Queue<Integer> q3 = new ListQueue<>(); q3.enqueue(5); q3.enqueue(12); q3.enqueue(15); q3.enqueue(17); q3.enqueue(20);
         Queue<Integer> q4 = new ListQueue<>(); q4.enqueue(1); q4.enqueue(4); q4.enqueue(12); q4.enqueue(13); q4.enqueue(16); q4.enqueue(18);
