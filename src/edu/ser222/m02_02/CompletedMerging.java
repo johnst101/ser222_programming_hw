@@ -41,7 +41,8 @@ public class CompletedMerging implements MergingAlgorithms {
     @Override
     public void sort(Comparable[] a) {
         //TODO: implement this!
-        mergesort(a);
+        Comparable[] sortedArray = mergesort(a);
+        System.arraycopy(sortedArray, 0, a, 0, a.length);
     }
 
     @Override
@@ -53,15 +54,8 @@ public class CompletedMerging implements MergingAlgorithms {
         int splitLength = a.length / 2;
         Comparable[] split1 = new Comparable[splitLength];
         Comparable[] split2 = new Comparable[a.length - splitLength];
-        int j = 0;
-        for (int i = 0; i < split1.length; i++) {
-            split1[i] = a[j];
-            j++;
-        }
-        for (int i = 0; i < split2.length; i++) {
-            split2[i] = a[j];
-            j++;
-        }
+        System.arraycopy(a, 0, split1, 0, splitLength);
+        System.arraycopy(a, splitLength, split2, 0, a.length - splitLength);
 
         split1 = mergesort(split1);
         split2 = mergesort(split2);
