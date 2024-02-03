@@ -40,42 +40,83 @@ public class CompletedMerging implements MergingAlgorithms {
 
     @Override
     public void sort(Comparable[] a) {
-        //TODO: implement this!
-
+        mergesort(a);
+        assert isSorted(a);
     }
 
     @Override
     public Comparable[] mergesort(Comparable[] a) {
         //TODO: implement this!
-        return null;
+        if (a.length <= 1) {
+            return a;
+        }
+        Comparable[] split1;
+        Comparable[] split2;
+        int normLength = a.length / 2;
+        if (a.length % 2 != 0) {
+            split1 = new Comparable[normLength];
+            split2 = new Comparable[(normLength) + 1];
+        } else {
+            split1 = new Comparable[normLength];
+            split2 = new Comparable[normLength];
+        }
+
+        int i;
+        for (i = 0; i < split1.length; i++) {
+            split1[i] = a[i];
+        }
+        int k = i;
+        for (int j = 0; j < split2.length; j++) {
+            split2[j] = a[k];
+            k++;
+        }
+        if (split1.length <= 1 && split2.length <= 1) {
+            return merge(split1, split2);
+        }
+        if (split1.length > 1 && split2.length > 1) {
+            mergesort(split1);
+            mergesort(split2);
+        }
+        if (split1.length > 1){
+            mergesort(split1);
+        }
+        if (split2.length > 1) {
+            mergesort(split2);
+        }
+
+        return a = merge(split1, split2);
     }
 
     @Override
     public Comparable[] merge(Comparable[] a, Comparable[] b) {
         Comparable[] newArray = new Comparable[a.length + b.length];
 
-        int i = 0, j = 0, k = 0;
-        while ((i < a.length) || (j < b.length)) {
-            if (i >= a.length) {
-                newArray[k] = b[j];
-                j++;
-                k++;
+        int aTrace = 0, bTrace = 0;
+        while ((aTrace < a.length) || (bTrace < b.length)) {
+            if (aTrace >= a.length) {
+                if (newArray.length == 0) {
+                    newArray[0] = b[bTrace];
+                    b
+                }
+                for (int k = 0; k < newArray.length; k++) {
+                    newArray[k] = b[bTrace];
+                    bTrace++;
                 continue;
             }
-            if (j >= b.length) {
-                newArray[k] = a[i];
-                i++;
-                k++;
+            if (bTrace >= b.length) {
+                newArray[newArrTrace] = a[aTrace];
+                aTrace++;
+                newArrTrace++;
                 continue;
             }
-            if (less(a[i],b[j])) {
-                newArray[k] = a[i];
-                i++;
-                k++;
+            if (less(a[aTrace],b[bTrace])) {
+                newArray[newArrTrace] = a[aTrace];
+                aTrace++;
+                newArrTrace++;
             } else {
-                newArray[k] = b[j];
-                j++;
-                k++;
+                newArray[newArrTrace] = b[bTrace];
+                bTrace++;
+                newArrTrace++;
             }
         }
         //TODO: double check below requirements are met and remove comments
@@ -113,9 +154,11 @@ public class CompletedMerging implements MergingAlgorithms {
         
         //Q2 - sample test cases
         String[] a = {"S", "O", "R", "T", "E", "X", "A", "M", "P", "L", "E"};
-        String[] test1 = {"A", "B", "C", "D", "F", "J", "X"};
+        String[] test1 = {"T", "Y", "L", "E", "R"};
         String[] test2 = {"B", "G", "J", "L", "O", "Q"};
-        Comparable[] test = ma.merge(test1,test2);
+        Comparable[] mergeTest = ma.merge(test1, test2);
+        Comparable[] test = ma.mergesort(test1);
+        show(mergeTest);
         show(test);
         ma.sort(a);
         assert isSorted(a);
