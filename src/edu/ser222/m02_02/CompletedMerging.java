@@ -17,7 +17,6 @@ public class CompletedMerging implements MergingAlgorithms {
     //TODO: implement interface methods.
     @Override
     public <T extends Comparable> Queue<T> mergeQueues(Queue<T> q1, Queue<T> q2) {
-        //TODO: implement this!
         Queue<T> mergedQueue = new ListQueue<>();
         while(!q1.isEmpty() || !q2.isEmpty()) {
             if (q1.isEmpty()) {
