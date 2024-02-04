@@ -1,11 +1,13 @@
 package edu.ser222.m02_02;
 
+import java.util.Random;
+
 /**
  * Implements various divide and conquer algorithms.
  *
- * Last updated 02/3/24.
+ * Last updated 02/4/24.
  *
- * Completion time: 5.0 hours TODO: fill in
+ * Completion time: 5.0 hours
  *
  * @author Tyler Johnson, Acuna, Sedgewick and Wayne
  * @verison 1.0
@@ -14,7 +16,6 @@ import java.util.Random;
 
 public class CompletedMerging implements MergingAlgorithms {
 
-    //TODO: implement interface methods.
     @Override
     public <T extends Comparable> Queue<T> mergeQueues(Queue<T> q1, Queue<T> q2) {
         Queue<T> mergedQueue = new ListQueue<>();
@@ -40,14 +41,12 @@ public class CompletedMerging implements MergingAlgorithms {
 
     @Override
     public void sort(Comparable[] a) {
-        //TODO: implement this!
         Comparable[] sortedArray = mergesort(a);
         System.arraycopy(sortedArray, 0, a, 0, a.length);
     }
 
     @Override
     public Comparable[] mergesort(Comparable[] a) {
-        //TODO: implement this!
         if (a.length <= 1) {
             return a;
         }
@@ -92,17 +91,70 @@ public class CompletedMerging implements MergingAlgorithms {
                 k++;
             }
         }
-        //TODO: double check below requirements are met and remove comments
-        //types must match between input arrays
-        //input arrays must not change
-        //input arrays must not be returned as the result
-        //can assume input does not contain nulls
+
         return newArray;
     }
 
     @Override
     public void shuffle(Object[] a) {
         //TODO: implement this!
+        Object[] aux = new Object[a.length];
+
+        shuffle(a, aux, 0, a.length - 1);
+    }
+
+    public void shuffle(Object[] a, Object[] aux, int lo, int hi) {
+        if (hi <= lo) {
+            return;
+        }
+
+        int mid = lo + (hi - lo) / 2;
+
+        shuffle(a, aux, lo, mid);
+        shuffle(a, aux, mid + 1, hi);
+        merge(a, aux, lo, mid, hi);
+    }
+
+    public void merge(Object[] a, Object[] aux, int lo, int mid, int hi) {
+        Random randBool = new Random();
+        int i = lo, j = mid + 1;
+//        k = 0;
+
+//        while (i <= mid && j <= hi) {
+//            if (randBool.nextBoolean()) {
+//                aux[k++] = a[i++];
+//            } else {
+//                aux[k++] = a[j++];
+//            }
+//        }
+//
+//        while (i <= mid) {
+//            aux[k++] = a[i++];
+//        }
+//
+//        while (j <= hi) {
+//            aux[k++] = a[j++];
+//        }
+//
+//        for (int m = 0; m < aux.length; m++) {
+//            a[i] = aux[i];
+//        }
+        for (int k = lo; k <= hi; k++) {
+            aux[k] = a[k];
+        }
+
+        for (int k = lo; k <= hi; k++) {
+            if (i > mid) {
+                a[k] = aux[j++];
+            } else if (j > hi) {
+                a[k] = aux[i++];
+            } else if (randBool.nextBoolean()) {
+                a[k] = aux[i++];
+            } else {
+                a[k] = aux[j++];
+            }
+
+        }
     }
      
     /**
