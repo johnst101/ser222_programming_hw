@@ -7,7 +7,7 @@ import java.util.Random;
  *
  * Last updated 02/4/24.
  *
- * Completion time: 5.0 hours
+ * Completion time: 6.0 hours
  *
  * @author Tyler Johnson, Acuna, Sedgewick and Wayne
  * @verison 1.0
@@ -97,7 +97,6 @@ public class CompletedMerging implements MergingAlgorithms {
 
     @Override
     public void shuffle(Object[] a) {
-        //TODO: implement this!
         Object[] aux = new Object[a.length];
 
         shuffle(a, aux, 0, a.length - 1);
@@ -118,27 +117,7 @@ public class CompletedMerging implements MergingAlgorithms {
     public void merge(Object[] a, Object[] aux, int lo, int mid, int hi) {
         Random randBool = new Random();
         int i = lo, j = mid + 1;
-//        k = 0;
 
-//        while (i <= mid && j <= hi) {
-//            if (randBool.nextBoolean()) {
-//                aux[k++] = a[i++];
-//            } else {
-//                aux[k++] = a[j++];
-//            }
-//        }
-//
-//        while (i <= mid) {
-//            aux[k++] = a[i++];
-//        }
-//
-//        while (j <= hi) {
-//            aux[k++] = a[j++];
-//        }
-//
-//        for (int m = 0; m < aux.length; m++) {
-//            a[i] = aux[i];
-//        }
         for (int k = lo; k <= hi; k++) {
             aux[k] = a[k];
         }
