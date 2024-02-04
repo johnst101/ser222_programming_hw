@@ -1,46 +1,139 @@
 package edu.ser222.m02_02;
 
+import java.util.Random;
+
 /**
  * Implements various divide and conquer algorithms.
  *
- * Last updated 4/2/2022.
+ * Last updated 02/4/24.
  *
- * Completion time: (your completion time)
+ * Completion time: 6.0 hours
  *
- * @author (your name), Acuna, Sedgewick and Wayne
- * @verison (version)
+ * @author Tyler Johnson, Acuna, Sedgewick and Wayne
+ * @verison 1.0
  */
 import java.util.Random;
 
 public class CompletedMerging implements MergingAlgorithms {
 
-    //TODO: implement interface methods.
     @Override
     public <T extends Comparable> Queue<T> mergeQueues(Queue<T> q1, Queue<T> q2) {
-        //TODO: implement this!
-        return null;
+        Queue<T> mergedQueue = new ListQueue<>();
+        while(!q1.isEmpty() || !q2.isEmpty()) {
+            if (q1.isEmpty()) {
+                mergedQueue.enqueue(q2.dequeue());
+                continue;
+            }
+            if (q2.isEmpty()) {
+                mergedQueue.enqueue(q1.dequeue());
+                continue;
+            }
+            T i = q1.peek(), j = q2.peek();
+            if (less(i,j)) {
+                mergedQueue.enqueue(q1.dequeue());
+            } else {
+                mergedQueue.enqueue(q2.dequeue());
+            }
+        }
+
+        return mergedQueue;
     }
 
     @Override
     public void sort(Comparable[] a) {
-        //TODO: implement this!
+        Comparable[] sortedArray = mergesort(a);
+        System.arraycopy(sortedArray, 0, a, 0, a.length);
     }
 
     @Override
     public Comparable[] mergesort(Comparable[] a) {
-        //TODO: implement this!
-        return null;
+        if (a.length <= 1) {
+            return a;
+        }
+        int splitLength = a.length / 2;
+        Comparable[] split1 = new Comparable[splitLength];
+        Comparable[] split2 = new Comparable[a.length - splitLength];
+        System.arraycopy(a, 0, split1, 0, splitLength);
+        System.arraycopy(a, splitLength, split2, 0, a.length - splitLength);
+
+        split1 = mergesort(split1);
+        split2 = mergesort(split2);
+        a = merge(split1, split2);
+
+        return a;
     }
 
     @Override
     public Comparable[] merge(Comparable[] a, Comparable[] b) {
-        //TODO: implement this!
-        return null;
+        Comparable[] newArray = new Comparable[a.length + b.length];
+
+        int i = 0, j = 0, k = 0;
+        while ((i < a.length) || (j < b.length)) {
+            if (i >= a.length) {
+                newArray[k] = b[j];
+                j++;
+                k++;
+                continue;
+            }
+            if (j >= b.length) {
+                newArray[k] = a[i];
+                i++;
+                k++;
+                continue;
+            }
+            if (less(a[i],b[j])) {
+                newArray[k] = a[i];
+                i++;
+                k++;
+            } else {
+                newArray[k] = b[j];
+                j++;
+                k++;
+            }
+        }
+
+        return newArray;
     }
 
     @Override
     public void shuffle(Object[] a) {
-        //TODO: implement this!
+        Object[] aux = new Object[a.length];
+
+        shuffle(a, aux, 0, a.length - 1);
+    }
+
+    public void shuffle(Object[] a, Object[] aux, int lo, int hi) {
+        if (hi <= lo) {
+            return;
+        }
+
+        int mid = lo + (hi - lo) / 2;
+
+        shuffle(a, aux, lo, mid);
+        shuffle(a, aux, mid + 1, hi);
+        merge(a, aux, lo, mid, hi);
+    }
+
+    public void merge(Object[] a, Object[] aux, int lo, int mid, int hi) {
+        Random randBool = new Random();
+        int i = lo, j = mid + 1;
+
+        for (int k = lo; k <= hi; k++) {
+            aux[k] = a[k];
+        }
+
+        for (int k = lo; k <= hi; k++) {
+            if (i > mid) {
+                a[k] = aux[j++];
+            } else if (j > hi) {
+                a[k] = aux[i++];
+            } else if (randBool.nextBoolean()) {
+                a[k] = aux[i++];
+            } else {
+                a[k] = aux[j++];
+            }
+
+        }
     }
      
     /**
@@ -50,6 +143,7 @@ public class CompletedMerging implements MergingAlgorithms {
      */
     public static void main(String[] args) {
         Queue<String> q1 = new ListQueue<>(); q1.enqueue("E"); q1.enqueue("L"); q1.enqueue("O"); q1.enqueue("R"); q1.enqueue("T");
+        System.out.println(q1.toString());
         Queue<String> q2 = new ListQueue<>(); q2.enqueue("A"); q2.enqueue("E"); q2.enqueue("M"); q2.enqueue("P"); q2.enqueue("S"); q2.enqueue("X");
         Queue<Integer> q3 = new ListQueue<>(); q3.enqueue(5); q3.enqueue(12); q3.enqueue(15); q3.enqueue(17); q3.enqueue(20);
         Queue<Integer> q4 = new ListQueue<>(); q4.enqueue(1); q4.enqueue(4); q4.enqueue(12); q4.enqueue(13); q4.enqueue(16); q4.enqueue(18);
@@ -64,6 +158,10 @@ public class CompletedMerging implements MergingAlgorithms {
         
         //Q2 - sample test cases
         String[] a = {"S", "O", "R", "T", "E", "X", "A", "M", "P", "L", "E"};
+        String[] test1 = {"A", "B", "C", "D", "F", "J", "X"};
+        String[] test2 = {"B", "G", "J", "L", "O", "Q"};
+        Comparable[] test = ma.merge(test1,test2);
+        show(test);
         ma.sort(a);
         assert isSorted(a);
         show(a);
