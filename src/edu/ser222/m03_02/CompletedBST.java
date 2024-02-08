@@ -3,10 +3,10 @@ package edu.ser222.m03_02;
 /**
  * A binary search tree based implementation of a symbol table.
  * 
- * Completion time: (your completion time)
+ * Completion time: (your completion time) TODO: fill in once done
  *
- * @author (your name), Sedgewick, Acuna
- * @version (version)
+ * @author Tyler Johnson, Sedgewick, Acuna
+ * @version 1.0
  */
 import java.util.Collections;
 import java.util.LinkedList;
@@ -98,7 +98,7 @@ public class CompletedBST<Key extends Comparable<Key>, Value> implements BST<Key
     }
 
     private Node<Key, Value> max(Node x) {
-    if (x.right == null) return x;
+        if (x.right == null) return x;
         return max(x.right);
     }
 
@@ -223,21 +223,26 @@ public class CompletedBST<Key extends Comparable<Key>, Value> implements BST<Key
     }
 
     public boolean contains(Key key) {
-        //TODO
-        return false;
+        return get(key) != null;
     }
 
     public boolean isEmpty() {
-        //TODO
-        return false;
+        return root == null;
     }
 
     public void deleteMax()  {
-        //TODO
+        root = deleteMax(root);
+    }
+
+    private Node deleteMax(Node x) {
+        if (x.right == null) return x.right;
+        x.right = deleteMax(x.right);
+        x.N = size(x.left) + size(x.right) + 1;
+        return x;
     }
 
     public int size(Key lo, Key hi) {
-        //TODO
+        // TODO:
         return 0;
     }
 
