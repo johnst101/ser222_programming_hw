@@ -408,18 +408,30 @@ public class CompletedBST<Key extends Comparable<Key>, Value> implements BST<Key
     }
 
     private void updateSizes(Node<Key, Value> x) {
-        if (x == null) return;
-        updateSizes(x.left);
-        updateSizes(x.right);
-        if ((x.left != null) && (x.right != null)) {
-            x.N = x.left.N + x.right.N + 1;
-        } else if ((x.left == null) && (x.right != null)) {
-            x.N = x.right.N + 1;
-        } else if (x.left != null) {
-            x.N = x.left.N + 1;
-        } else {
-            x.N = 1;
-        }
+//        if (x == null) return;
+//        updateSizes(x.left);
+//        updateSizes(x.right);
+//        if ((x.left != null) && (x.right != null)) {
+//            x.N = x.left.N + x.right.N + 1;
+//        } else if ((x.left == null) && (x.right != null)) {
+//            x.N = x.right.N + 1;
+//        } else if (x.left != null) {
+//            x.N = x.left.N + 1;
+//        } else {
+//            x.N = 1;
+//        }
+        updateSizesHelper(x);
+    }
+
+    private int updateSizesHelper(Node<Key, Value> x) {
+        if (x == null) return 0;
+
+        int leftSize = updateSizesHelper(x.left);
+        int rightSize = updateSizesHelper(x.right);
+
+        x.N = leftSize + rightSize + 1;
+
+        return x.N;
     }
 
     public String displayLevel(Key key) {
