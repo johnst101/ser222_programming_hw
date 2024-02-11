@@ -3,11 +3,13 @@ package edu.ser222.m03_02;
 /**
  * A binary search tree based implementation of a symbol table.
  * <p>
- * Completion time: 6.0
+ * Completion time: 11.0
  *
  * @author Tyler Johnson, Sedgewick, Acuna
  * @version 1.0
  */
+
+import sun.awt.image.ImageWatched;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -299,14 +301,12 @@ public class CompletedBST<Key extends Comparable<Key>, Value> implements BST<Key
     }
 
     public void balance() {
-        //TODO
         if (root == null) return;
         root = balance(root);
     }
 
     private Node<Key, Value> balance(Node<Key, Value> x) {
-        //TODO
-        if ((x.left == null) && (x.right == null)) return x;
+        if (x == null) return x;
         int balanceFactor = size(x.left) - size(x.right);
         //if mismatch between left and right
         //while one side is greater than the other
@@ -316,23 +316,27 @@ public class CompletedBST<Key extends Comparable<Key>, Value> implements BST<Key
             int newFactor = size(x.left) - size(x.right);
             while (newFactor > 1) {
                 x = reRootMax(x);
-                x = balance(x.left);
-                x = balance(x.right);
+                root = x;
+                balance(x.left);
+                balance(x.right);
                 newFactor = size(x.left) - size(x.right);
             }
         } else if (balanceFactor < -1) {
             int newFactor = size(x.left) - size(x.right);
             while (newFactor < -1) {
                 x = reRootMin(x);
-                x = balance(x.left);
-                x = balance(x.right);
+                root = x;
+                balance(x.left);
+                balance(x.right);
                 newFactor = size(x.left) - size(x.right);
             }
         } else {
             //double check it's balanced
-            x = balance(x.left);
-            x = balance(x.right);
+            balance(x.left);
+            balance(x.right);
         }
+        balance(x.left);
+        balance(x.right);
 
         return x;
     }
@@ -345,7 +349,7 @@ public class CompletedBST<Key extends Comparable<Key>, Value> implements BST<Key
         x.left = temp;
         x.right = temp.right;
         if (parentRoot != null) {
-            parentRoot.left = x;
+            parentRoot.right = x;
         }
         temp.right = null;
         Node<Key, Value> parentMin = parent(x, min);
@@ -366,16 +370,22 @@ public class CompletedBST<Key extends Comparable<Key>, Value> implements BST<Key
         x.right = temp;
         x.left = temp.left;
         if (parentRoot != null) {
-            parentRoot.right = x;
+            parentRoot.left = x;
         }
         //swap right or left side of old root with the new root
         //old parent right or left needs to be null now
         temp.left = null;
+        if (temp.right != null) {
+            temp.N = temp.right.N + 1;
+        } else {
+            temp.N = 1;
+        }
         //min or max parent must now be null
         Node<Key, Value> parentMax = parent(x, max);
         if (parentMax != null) {
             parentMax.right = null;
         }
+        updateSizes(x);
         return x;
     }
 
@@ -399,10 +409,46 @@ public class CompletedBST<Key extends Comparable<Key>, Value> implements BST<Key
         }
     }
 
+    private void updateSizes(Node<Key, Value> x) {
+        if (x == null) return;
+        updateSizes(x.left);
+        updateSizes(x.right);
+        if ((x.left != null) && (x.right != null)) {
+            x.N = x.left.N + x.right.N + 1;
+        } else if ((x.left == null) && (x.right != null)) {
+            x.N = x.right.N + 1;
+        } else if (x.left != null) {
+            x.N = x.left.N + 1;
+        } else {
+            x.N = 1;
+        }
+    }
+
     public String displayLevel(Key key) {
         //TODO
-        Iterable<Key> queue = keys();
-        return null;
+        String result = "";
+        Queue<Node<Key, Value>> queue = new LinkedList<>();
+        Node<Key, Value> current = root;
+        boolean found = false;
+        while (current != null) {
+            int cmp = key.compareTo(current.key);
+            if (cmp < 0) current = current.left;
+            else if (cmp > 0) current = current.right;
+            else {
+                found = true;
+                break;
+            }
+        }
+        if (found) {
+            queue.add(current);
+            while (!queue.isEmpty()) {
+                Node<Key, Value> node = queue.poll();
+                result += node.val + " ";
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+            }
+        }
+        return result;
     }
 
     /**
