@@ -9,8 +9,6 @@ package edu.ser222.m03_02;
  * @version 1.0
  */
 
-import sun.awt.image.ImageWatched;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
@@ -352,35 +350,35 @@ public class CompletedBST<Key extends Comparable<Key>, Value> implements BST<Key
             parentRoot.right = x;
         }
         temp.right = null;
+        if (temp.left != null) {
+            temp.N = temp.left.N + 1;
+        } else {
+            temp.N = 1;
+        }
         Node<Key, Value> parentMin = parent(x, min);
         if (parentMin != null) {
-            parentMin.right = null;
+            parentMin.left = null;
         }
+        updateSizes(x);
         return x;
     }
 
     private Node<Key, Value> reRootMax(Node<Key, Value> x) {
-        //find min or max (potential caveat of if min or max has a child within subtree)
         Node<Key, Value> parentRoot = parent(x);
         Node<Key, Value> max = max(x.left);
-        //temp node to parent of root
         Node<Key, Value> temp = x;
-        //make min or max new parent of root with left or right (depending) child as root
         x = max;
         x.right = temp;
         x.left = temp.left;
         if (parentRoot != null) {
             parentRoot.left = x;
         }
-        //swap right or left side of old root with the new root
-        //old parent right or left needs to be null now
         temp.left = null;
         if (temp.right != null) {
             temp.N = temp.right.N + 1;
         } else {
             temp.N = 1;
         }
-        //min or max parent must now be null
         Node<Key, Value> parentMax = parent(x, max);
         if (parentMax != null) {
             parentMax.right = null;
