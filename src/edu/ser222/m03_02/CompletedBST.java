@@ -333,8 +333,8 @@ public class CompletedBST<Key extends Comparable<Key>, Value> implements BST<Key
             balance(x.left);
             balance(x.right);
         }
-        balance(x.left);
-        balance(x.right);
+//        balance(x.left);
+//        balance(x.right);
 
         return x;
     }
@@ -424,6 +424,7 @@ public class CompletedBST<Key extends Comparable<Key>, Value> implements BST<Key
 
     public String displayLevel(Key key) {
         //TODO
+        if (root == null) return "empty";
         String result = "";
         Queue<Node<Key, Value>> queue = new LinkedList<>();
         Node<Key, Value> current = root;
