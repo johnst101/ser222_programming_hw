@@ -306,56 +306,103 @@ public class CompletedBST<Key extends Comparable<Key>, Value> implements BST<Key
 
     private Node<Key, Value> balance(Node<Key, Value> x) {
         //TODO
-        if (x == null) return null;
+        if ((x.left == null) && (x.right == null)) return x;
         int balanceFactor = size(x.left) - size(x.right);
         //if mismatch between left and right
         //while one side is greater than the other
             //then move min or max node to parent of x
             //balance both sides
-            x = balance(x.left);
-            x = balance(x.right);
-
         if (balanceFactor > 1) {
-
-            x = balance(x.left);
-
+            int newFactor = size(x.left) - size(x.right);
+            while (newFactor > 1) {
+                x = reRootMax(x);
+                x = balance(x.left);
+                x = balance(x.right);
+                newFactor = size(x.left) - size(x.right);
+            }
         } else if (balanceFactor < -1) {
-            x = balance(x.right);
-
+            int newFactor = size(x.left) - size(x.right);
+            while (newFactor < -1) {
+                x = reRootMin(x);
+                x = balance(x.left);
+                x = balance(x.right);
+                newFactor = size(x.left) - size(x.right);
+            }
         } else {
             //double check it's balanced
-            balance(x.left);
-            balance(x.right);
+            x = balance(x.left);
+            x = balance(x.right);
         }
+
+        return x;
     }
-    
-    private Node<Key, Value> reRoot(Node<Key, Value> root) {
+
+    private Node<Key, Value> reRootMin(Node<Key, Value> x) {
+        Node<Key, Value> parentRoot = parent(x);
+        Node<Key, Value> min = min(x.right);
+        Node<Key, Value> temp = x;
+        x = min;
+        x.left = temp;
+        x.right = temp.right;
+        if (parentRoot != null) {
+            parentRoot.left = x;
+        }
+        temp.right = null;
+        Node<Key, Value> parentMin = parent(x, min);
+        if (parentMin != null) {
+            parentMin.right = null;
+        }
+        return x;
+    }
+
+    private Node<Key, Value> reRootMax(Node<Key, Value> x) {
         //find min or max (potential caveat of if min or max has a child within subtree)
+        Node<Key, Value> parentRoot = parent(x);
+        Node<Key, Value> max = max(x.left);
         //temp node to parent of root
+        Node<Key, Value> temp = x;
         //make min or max new parent of root with left or right (depending) child as root
+        x = max;
+        x.right = temp;
+        x.left = temp.left;
+        if (parentRoot != null) {
+            parentRoot.right = x;
+        }
         //swap right or left side of old root with the new root
         //old parent right or left needs to be null now
+        temp.left = null;
         //min or max parent must now be null
+        Node<Key, Value> parentMax = parent(x, max);
+        if (parentMax != null) {
+            parentMax.right = null;
+        }
+        return x;
     }
 
-    //TODO: Probably remove the below
-    private Node<Key, Value>[] balanceArray(Node<Key, Value> x) {
-        Node<Key, Value>[] heap = new Node[size(x)];
-        int heapTraverse = 0;
-        heap[0] = null;
-        heapTraverse++;
-        Iterable<Key> keys = keys(min(x).key, max(x).key);
-        for (Key item : keys) {
-            heap[heapTraverse] = new Node<Key, Value>(item, get(item), 1);
-            heapTraverse++;
-        }
+    private Node<Key, Value> parent(Node<Key, Value> x) {
+        return parent(root, x);
+    }
 
-        return heap;
+    private Node<Key, Value> parent(Node<Key, Value> currentNode, Node<Key, Value> x) {
+        if ((x == root) || (currentNode == null)) return null;
+        else {
+            if((currentNode.left == x) || (currentNode.right == x))
+                return currentNode;
+            else {
+                if (currentNode.key.compareTo(x.key) < 0) {
+                    return parent(currentNode.right, x);
+                }
+                else {
+                    return parent(currentNode.left, x);
+                }
+            }
+        }
     }
 
     public String displayLevel(Key key) {
         //TODO
-        return "";
+        Iterable<Key> queue = keys();
+        return null;
     }
 
     /**
@@ -379,15 +426,9 @@ public class CompletedBST<Key extends Comparable<Key>, Value> implements BST<Key
         System.out.println(bst.size(1, 10));
         System.out.println(bst.size(4, 6));
 
-        System.out.println(bst.getFast(3));
-        System.out.println(bst.getFast(4));
-
-        bst.putFast(4, "FOUR");
-        System.out.println(bst.getFast(4));
-
-        System.out.println("first max: " + bst.max());
-        bst.deleteMax();
-        System.out.println("after delMax: " + bst.max());
+        Iterable testKeys = bst.keys();
+        String result = testKeys.toString();
+        System.out.println(result);
 
         System.out.println("Before balance:");
         System.out.println(bst.displayLevel(10)); //root
