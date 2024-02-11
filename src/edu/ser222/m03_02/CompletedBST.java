@@ -3,7 +3,7 @@ package edu.ser222.m03_02;
 /**
  * A binary search tree based implementation of a symbol table.
  * <p>
- * Completion time: (your completion time) TODO: fill in once done
+ * Completion time: 6.0
  *
  * @author Tyler Johnson, Sedgewick, Acuna
  * @version 1.0
@@ -252,7 +252,6 @@ public class CompletedBST<Key extends Comparable<Key>, Value> implements BST<Key
     }
 
     public void putFast(Key key, Value val) {
-        // TODO: finish this
         Node<Key, Value> x = root;
         if (isEmpty()) {
             root = new Node(key, val, 1);
@@ -305,16 +304,13 @@ public class CompletedBST<Key extends Comparable<Key>, Value> implements BST<Key
     }
 
     private Node<Key, Value> balance(Node<Key, Value> x) {
-        // check if empty?
         if (x == null) return null;
-        if ((size(x.left) - size(x.right)) > 1) {
-            balance(x.left);
-        } else if ((size(x.right) - size(x.left)) > 1) {
-            balance(x.right);
-        } else {
-            return null; // TODO: fix
+        if (size(x.left) - size(x.right) > 1) {
+
+        } else if (size(x.right) - size(x.left) > 1) {
+
         }
-        return null; // TODO: fix
+
     }
 
     public String displayLevel(Key key) {
