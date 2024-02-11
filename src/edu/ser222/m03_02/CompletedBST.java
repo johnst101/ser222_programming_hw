@@ -300,17 +300,57 @@ public class CompletedBST<Key extends Comparable<Key>, Value> implements BST<Key
 
     public void balance() {
         //TODO
+        if (root == null) return;
         root = balance(root);
     }
 
     private Node<Key, Value> balance(Node<Key, Value> x) {
+        //TODO
         if (x == null) return null;
-        if (size(x.left) - size(x.right) > 1) {
+        int balanceFactor = size(x.left) - size(x.right);
+        //if mismatch between left and right
+        //while one side is greater than the other
+            //then move min or max node to parent of x
+            //balance both sides
+            x = balance(x.left);
+            x = balance(x.right);
 
-        } else if (size(x.right) - size(x.left) > 1) {
+        if (balanceFactor > 1) {
 
+            x = balance(x.left);
+
+        } else if (balanceFactor < -1) {
+            x = balance(x.right);
+
+        } else {
+            //double check it's balanced
+            balance(x.left);
+            balance(x.right);
+        }
+    }
+    
+    private Node<Key, Value> reRoot(Node<Key, Value> root) {
+        //find min or max (potential caveat of if min or max has a child within subtree)
+        //temp node to parent of root
+        //make min or max new parent of root with left or right (depending) child as root
+        //swap right or left side of old root with the new root
+        //old parent right or left needs to be null now
+        //min or max parent must now be null
+    }
+
+    //TODO: Probably remove the below
+    private Node<Key, Value>[] balanceArray(Node<Key, Value> x) {
+        Node<Key, Value>[] heap = new Node[size(x)];
+        int heapTraverse = 0;
+        heap[0] = null;
+        heapTraverse++;
+        Iterable<Key> keys = keys(min(x).key, max(x).key);
+        for (Key item : keys) {
+            heap[heapTraverse] = new Node<Key, Value>(item, get(item), 1);
+            heapTraverse++;
         }
 
+        return heap;
     }
 
     public String displayLevel(Key key) {
