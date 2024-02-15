@@ -91,7 +91,6 @@ public class CompletedMerging implements MergingAlgorithms {
                 k++;
             }
         }
-
         return newArray;
     }
 
