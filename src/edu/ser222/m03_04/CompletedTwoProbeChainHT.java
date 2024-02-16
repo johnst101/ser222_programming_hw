@@ -4,30 +4,36 @@ package edu.ser222.m03_04;
  * A symbol table implemented using a hashtable with chaining.
  * Does not support load balancing or resizing.
  * 
- * @author (put your name here), Sedgewick and Wayne, Acuna
+ * @author Tyler Johnson, Sedgewick and Wayne, Acuna
  */
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class CompletedTwoProbeChainHT<Key, Value> implements TwoProbeChainHT<Key, Value> {
+    private int N; // number of key value pairs
+    private int M; // hash table size
+    private CompletedTwoProbeChainHT<Key, Value>[] st; //TODO: not understanding what to use for the array
+
 
     //any constructors must be made public
+    public CompletedTwoProbeChainHT() {
+
+    }
 
     @Override
     public int hash(Key key) {
-        //TODO
-        return 0;
+        return (key.hashCode() & 0x7fffffff) % M;
     }
 
     @Override
     public int hash2(Key key) {
-        //TODO
-        return 0;
+        return (((key.hashCode() & 0x7f) % M) * 31) % M;
     }
 
     @Override
     public void put(Key key, Value val) {
         //TODO
+
     }
 
     @Override
@@ -70,17 +76,11 @@ public class CompletedTwoProbeChainHT<Key, Value> implements TwoProbeChainHT<Key
 
     @Override
     public int getM() {
-        //TODO. We suggest something like:
-        //return M;
-
-        return 0;
+        return M;
     }
 
     @Override
     public int getChainSize(int i) {
-        //TODO. We suggest something like:
-        //return entries[i].size();
-
-        return 0;
+        return entries[i].size();
     }
 }
