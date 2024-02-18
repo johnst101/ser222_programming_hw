@@ -21,10 +21,10 @@ public class CompletedTwoProbeChainHT<Key, Value> implements TwoProbeChainHT<Key
         this.entries = (LinkedList<Entry<Key, Value>>[]) new LinkedList[M];
     }
 
-    public CompletedTwoProbeChainHT(int M) {
+    public CompletedTwoProbeChainHT(int size) {
         this.N = 0;
-        this.M = M;
-        this.entries = (LinkedList<Entry<Key, Value>>[]) new LinkedList[M];
+        this.M = size;
+        this.entries = (LinkedList<Entry<Key, Value>>[]) new LinkedList[size];
     }
 
     @Override
@@ -55,12 +55,12 @@ public class CompletedTwoProbeChainHT<Key, Value> implements TwoProbeChainHT<Key
         int hash1 = hash(key);
         int hash2 = hash2(key);
         for (Entry<Key, Value> entry : entries[hash1]) {
-            if (entry.getKey() == key) {
+            if (entry.getKey().equals(key)) {
                 return entry.getVal();
             }
         }
         for (Entry<Key, Value> entry : entries[hash2]) {
-            if (entry.getKey() == key) {
+            if (entry.getKey().equals(key)) {
                 return entry.getVal();
             }
         }
@@ -72,15 +72,16 @@ public class CompletedTwoProbeChainHT<Key, Value> implements TwoProbeChainHT<Key
         int hash1 = hash(key);
         int hash2 = hash2(key);
         for (Entry<Key, Value> entry : entries[hash1]) {
-            if (entry.getKey() == key) {
+            if (entry.getKey().equals(key)) {
                 entries[hash1].remove(entry);
             }
         }
         for (Entry<Key, Value> entry : entries[hash2]) {
-            if (entry.getKey() == key) {
+            if (entry.getKey().equals(key)) {
                 entries[hash2].remove(entry);
             }
         }
+        this.N--;
     }
 
     @Override
@@ -88,12 +89,12 @@ public class CompletedTwoProbeChainHT<Key, Value> implements TwoProbeChainHT<Key
         int hash1 = hash(key);
         int hash2 = hash2(key);
         for (Entry<Key, Value> entry : entries[hash1]) {
-            if (entry.getKey() == key) {
+            if (entry.getKey().equals(key)) {
                 return true;
             }
         }
         for (Entry<Key, Value> entry : entries[hash2]) {
-            if (entry.getKey() == key) {
+            if (entry.getKey().equals(key)) {
                 return true;
             }
         }
@@ -112,8 +113,17 @@ public class CompletedTwoProbeChainHT<Key, Value> implements TwoProbeChainHT<Key
 
     @Override
     public Iterable<Key> keys() {
-        //TODO
-        return null;
+        LinkedList<Key> allKeys = new LinkedList<>();
+        for (LinkedList<Entry<Key, Value>> chain : entries) {
+            if (!chain.isEmpty()) {
+                for (Entry<Key, Value> entry : chain) {
+                    if (entry != null) {
+                        allKeys.add(entry.getKey());
+                    }
+                }
+            }
+        }
+        return allKeys;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
