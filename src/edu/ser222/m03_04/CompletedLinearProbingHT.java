@@ -3,12 +3,15 @@ package edu.ser222.m03_04;
 /**
  * A symbol table implemented using a hashtable with linear probing.
  * 
- * @author (put your name here), Sedgewick and Wayne, Acuna
+ * @author Tyler Johnson, Sedgewick and Wayne, Acuna
  */
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class CompletedLinearProbingHT<Key, Value> implements ProbingHT<Key, Value> {
+    private int N;
+    private int M;
+    private
 
     //any constructors must be made public
 
