@@ -52,8 +52,20 @@ public class CompletedTwoProbeChainHT<Key, Value> implements TwoProbeChainHT<Key
         } else {
             int hash2 = hash2(key);
             if (entries[hash1].size() <= entries[hash2].size()) {
+                for (Entry<Key, Value> entry : entries[hash1]) {
+                    if (entry.getKey().equals(key)) {
+                        entry.val = val;
+                        return;
+                    }
+                }
                 entries[hash1].add(newEntry);
             } else {
+                for (Entry<Key, Value> entry : entries[hash2]) {
+                    if (entry.getKey().equals(key)) {
+                        entry.val = val;
+                        return;
+                    }
+                }
                 entries[hash2].add(newEntry);
             }
         }
@@ -152,7 +164,7 @@ public class CompletedTwoProbeChainHT<Key, Value> implements TwoProbeChainHT<Key
 
     public static class Entry<Key, Value> {
         private final Key key;
-        private final Value val;
+        private Value val;
 
         public Entry(Key newKey, Value newVal) {
             this.key = newKey;
