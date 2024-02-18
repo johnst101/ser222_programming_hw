@@ -19,12 +19,18 @@ public class CompletedTwoProbeChainHT<Key, Value> implements TwoProbeChainHT<Key
         this.N = 0;
         this.M = 97;
         this.entries = (LinkedList<Entry<Key, Value>>[]) new LinkedList[M];
+        for (int i = 0; i < M; i++) {
+            entries[i] = new LinkedList<>();
+        }
     }
 
     public CompletedTwoProbeChainHT(int size) {
         this.N = 0;
         this.M = size;
         this.entries = (LinkedList<Entry<Key, Value>>[]) new LinkedList[size];
+        for (int i = 0; i < M; i++) {
+            entries[i] = new LinkedList<>();
+        }
     }
 
     @Override
@@ -39,13 +45,17 @@ public class CompletedTwoProbeChainHT<Key, Value> implements TwoProbeChainHT<Key
 
     @Override
     public void put(Key key, Value val) {
-        int hash1 = hash(key);
-        int hash2 = hash2(key);
         Entry<Key, Value> newEntry = new Entry<>(key, val);
-        if (entries[hash1].size() <= entries[hash2].size()) {
+        int hash1 = hash(key);
+        if (this.N == 0) {
             entries[hash1].add(newEntry);
         } else {
-            entries[hash2].add(newEntry);
+            int hash2 = hash2(key);
+            if (entries[hash1].size() <= entries[hash2].size()) {
+                entries[hash1].add(newEntry);
+            } else {
+                entries[hash2].add(newEntry);
+            }
         }
         this.N++;
     }
@@ -55,6 +65,7 @@ public class CompletedTwoProbeChainHT<Key, Value> implements TwoProbeChainHT<Key
         int hash1 = hash(key);
         int hash2 = hash2(key);
         for (Entry<Key, Value> entry : entries[hash1]) {
+
             if (entry.getKey().equals(key)) {
                 return entry.getVal();
             }
