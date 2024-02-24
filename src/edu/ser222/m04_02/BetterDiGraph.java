@@ -1,12 +1,14 @@
 package edu.ser222.m04_02;
 
+import sun.awt.image.ImageWatched;
+
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 /**
  * An implementation of the EditableDiGraph interface that builds a Directed Graph to use for Kanji characters
  *
- * Completion time: TODO: fill in
+ * Completion time: 2.0 hrs
  *
  * @author Tyler Johnson
  * @version 02/24/2024
@@ -37,7 +39,6 @@ public class BetterDiGraph implements EditableDiGraph {
 
     @Override
     public void addEdge(int v, int w) {
-        // TODO: implement
         if (isEmpty()) {
             addVertex(v);
             addVertex(w);
@@ -57,14 +58,16 @@ public class BetterDiGraph implements EditableDiGraph {
         if (v > arraySize) {
             resizeAdj();
         }
+        if (containsVertex(v)) {
+            return;
+        }
         adj[v] = new LinkedList<>();
         this.V++;
     }
 
     @Override
     public Iterable<Integer> getAdj(int v) {
-        // TODO: implement
-        return null;
+        return adj[v];
     }
 
     @Override
@@ -74,8 +77,15 @@ public class BetterDiGraph implements EditableDiGraph {
 
     @Override
     public int getIndegree(int v) throws NoSuchElementException {
-        // TODO: implement
-        return 0;
+        int inDegCount = 0;
+        for (LinkedList<Integer> list : adj) {
+            for (int vertex : list) {
+                if (vertex == v) {
+                    inDegCount++;
+                }
+            }
+        }
+        return inDegCount;
     }
 
     @Override
@@ -85,18 +95,27 @@ public class BetterDiGraph implements EditableDiGraph {
 
     @Override
     public void removeEdge(int v, int w) {
-        // TODO: implement
+        if (containsVertex(v)) {
+            adj[v].remove(w);
+        }
     }
 
     @Override
     public void removeVertex(int v) {
-        // TODO: implement
+        if (containsVertex(v)) {
+            adj[v] = null;
+        }
     }
 
     @Override
     public Iterable<Integer> vertices() {
-        // TODO: implement
-        return null;
+        LinkedList<Integer> vertices = (LinkedList<Integer>) new LinkedList();
+        for (int i = 0; i < adj.length; i++) {
+            if (adj[i] != null) {
+                vertices.add(i);
+            }
+        }
+        return vertices;
     }
 
     @Override
@@ -106,6 +125,9 @@ public class BetterDiGraph implements EditableDiGraph {
 
     @Override
     public boolean containsVertex(int v) {
+        if (v > arraySize) {
+            return false;
+        }
         return adj[v] != null;
     }
 
