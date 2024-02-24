@@ -1,12 +1,12 @@
 package edu.ser222.m04_02;
 
 /**
- * (basic description of the program or class)
+ * An implementation of KanjiMain which builds topological sorts off of a graph of Kanji characters
  *
- * Completion time: (estimation of hours spent on this program)
+ * Completion time: (estimation of hours spent on this program) TODO: fill in
  *
- * @author (your name), Acuna, Buckner
- * @version (a version number or a date)
+ * @author Tyler Johnson, Acuna, Buckner
+ * @version 02/24/2024
  */
 
 //Note: not all of these packages may be needed.
