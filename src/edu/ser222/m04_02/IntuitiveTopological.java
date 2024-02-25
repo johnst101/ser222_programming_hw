@@ -49,11 +49,13 @@ public class IntuitiveTopological implements TopologicalSort {
         private boolean[] onStack;
 
         public DirectedCycle(EditableDiGraph graph) {
-            int vCount = graph.getVertexCount();;
+            int vCount = graph.getVertexCount();
+            int arraySize = 0;
+            Iterable<Integer> verts = graph.vertices();
             onStack = new boolean[vCount];
             edgeTo = new int[vCount];
             marked = new boolean[vCount];
-            for (int v = 0; v < vCount; v++) {
+            for (int v : verts) {
                 if (!marked[v]) {
                     dfs(graph, v);
                 }
@@ -63,7 +65,8 @@ public class IntuitiveTopological implements TopologicalSort {
         private void dfs(EditableDiGraph graph, int v) {
             onStack[v] = true;
             marked[v] = true;
-            for (int w : graph.getAdj(v)) {
+            Iterable<Integer> verts = graph.vertices();
+            for (int w : verts) {
                 if (this.hasCycle()) {
                     return;
                 } else if (!marked[w]) {

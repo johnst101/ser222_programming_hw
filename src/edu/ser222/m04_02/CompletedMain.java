@@ -44,11 +44,13 @@ public class CompletedMain implements KanjiMain {
                 }
                 reader.reset();
                 line = reader.readLine();
-                String[] lineArr = line.split("\t");
-                int id = Integer.parseInt(lineArr[0]);
-                String kanjiChar = lineArr[1];
-                kanjiMap.put(id, kanjiChar);
-                graph.addVertex(id);
+                if (line != null) {
+                    String[] lineArr = line.split("\t");
+                    int id = Integer.parseInt(lineArr[0]);
+                    String kanjiChar = lineArr[1];
+                    kanjiMap.put(id, kanjiChar);
+                    graph.addVertex(id);
+                }
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -73,10 +75,12 @@ public class CompletedMain implements KanjiMain {
                 }
                 reader.reset();
                 line = reader.readLine();
-                String[] lineArr = line.split("\t");
-                int char1 = Integer.parseInt(lineArr[0]);
-                int char2 = Integer.parseInt(lineArr[1]);
-                graph.addEdge(char1, char2);
+                if (line != null) {
+                    String[] lineArr = line.split("\t");
+                    int char1 = Integer.parseInt(lineArr[0]);
+                    int char2 = Integer.parseInt(lineArr[1]);
+                    graph.addEdge(char1, char2);
+                }
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

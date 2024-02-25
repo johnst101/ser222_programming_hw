@@ -17,13 +17,13 @@ import java.util.NoSuchElementException;
 public class BetterDiGraph implements EditableDiGraph {
     private int V;
     private int E;
-    private int arraySize;
+    protected int arraySize;
     private LinkedList<Integer>[] adj;
 
     public BetterDiGraph() {
         this.V = 0;
         this.E = 0;
-        this.arraySize = 100;
+        this.arraySize = 800;
         adj = (LinkedList<Integer>[]) new LinkedList[this.arraySize];
     }
 
