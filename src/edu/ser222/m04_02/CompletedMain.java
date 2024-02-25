@@ -86,8 +86,16 @@ public class CompletedMain implements KanjiMain {
     }
 
     public String buildOrderString(EditableDiGraph graph, TopologicalSort topSort, HashMap<Integer, String> kanjiMap) {
-        // TODO: implement
-        throw new java.lang.UnsupportedOperationException("TODO!");
+        String result = "Original:\n";
+        for (String value : kanjiMap.values()) {
+            result += value;
+        }
+        result += "\nSorted:\n";
+        for (int i : topSort.order()) {
+            result += kanjiMap.get(i);
+        }
+        result += "\n";
+        return result;
     }
 
     public static void main(String[] args) {
