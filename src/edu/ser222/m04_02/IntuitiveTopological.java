@@ -1,5 +1,8 @@
 package edu.ser222.m04_02;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -43,45 +46,48 @@ public class IntuitiveTopological implements TopologicalSort {
     }
 
     private class DirectedCycle {
-        private boolean[] marked;
-        private int[] edgeTo;
+        private HashMap<Integer, Boolean> marked;
+        private HashMap<Integer, Integer> edgeTo;
         private LinkedList<Integer> cycle;
-        private boolean[] onStack;
+        private HashMap<Integer, Boolean> onStack;
 
         public DirectedCycle(EditableDiGraph graph) {
-            int vCount = graph.getVertexCount();
-            int arraySize = 0;
             Iterable<Integer> verts = graph.vertices();
-            onStack = new boolean[vCount];
-            edgeTo = new int[vCount];
-            marked = new boolean[vCount];
+            onStack = new HashMap<>();
             for (int v : verts) {
-                if (!marked[v]) {
+                onStack.put(v, false);
+            }
+            edgeTo = new HashMap<>();
+            marked = new HashMap<>();
+            for (int v : verts) {
+                marked.put(v, false);
+            }
+            for (int v : verts) {
+                if (!marked.get(v)) {
                     dfs(graph, v);
                 }
             }
         }
 
         private void dfs(EditableDiGraph graph, int v) {
-            onStack[v] = true;
-            marked[v] = true;
-            Iterable<Integer> verts = graph.vertices();
-            for (int w : verts) {
+            onStack.put(v, true);
+            marked.put(v, true);
+            for (int w : graph.getAdj(v)) {
                 if (this.hasCycle()) {
                     return;
-                } else if (!marked[w]) {
-                    edgeTo[w] = v;
+                } else if (!marked.get(w)) {
+                    edgeTo.put(w, v);
                     dfs(graph, w);
-                } else if (onStack[w]) {
+                } else if (onStack.get(w)) {
                     cycle = new LinkedList<>();
-                    for (int x = v; x != w; x = edgeTo[x]) {
+                    for (int x = v; x != w; x = edgeTo.get(x)) {
                         cycle.push(x);
                     }
                     cycle.push(w);
                     cycle.push(v);
                 }
             }
-            onStack[v] = false;
+            onStack.put(v, false);
         }
 
         public boolean hasCycle() {
