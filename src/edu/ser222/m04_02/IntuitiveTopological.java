@@ -12,7 +12,7 @@ package edu.ser222.m04_02;
 public class IntuitiveTopological implements TopologicalSort {
     // TODO: member variables
 
-    public IntuitiveTopological() {
+    public IntuitiveTopological(EditableDiGraph graph) {
         // TODO: implement
     }
 

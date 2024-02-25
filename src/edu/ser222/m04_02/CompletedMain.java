@@ -103,9 +103,9 @@ public class CompletedMain implements KanjiMain {
         HashMap<Integer, String> kanjiMap = driver.loadKanji(FILENAME_KANJI, graph);
         driver.loadDataComponents(FILENAME_COMPONENTS, graph);
 
-        //TopologicalSort intuitive = new IntuitiveTopological(graph);
+        TopologicalSort intuitive = new IntuitiveTopological(graph);
 
-        //System.out.println(driver.buildOrderString(graph, intuitive, kanjiMap));
+        System.out.println(driver.buildOrderString(graph, intuitive, kanjiMap));
 
         /***************************************************************************
          * END - CORE DRIVER LOGIC, DO NOT MODIFY                                  *
