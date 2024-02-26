@@ -1,5 +1,7 @@
 package edu.ser222.m04_02;
 
+import edu.ser222.m03_04.CompletedLinearProbingHT;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
@@ -67,6 +69,9 @@ public class BetterDiGraph implements EditableDiGraph {
 
     @Override
     public int getIndegree(int v) throws NoSuchElementException {
+        if (!adj.containsKey(v)) {
+            throw new NoSuchElementException();
+        }
         int inDegCount = 0;
         for (LinkedList<Integer> list : adj.values()) {
             for (int vertex : list) {
@@ -85,7 +90,7 @@ public class BetterDiGraph implements EditableDiGraph {
 
     @Override
     public void removeEdge(int v, int w) {
-        if (containsVertex(v)) {
+        if (containsVertex(v) && adj.get(v).get(w) == w) {
             adj.get(v).remove(w);
             this.E--;
         }
