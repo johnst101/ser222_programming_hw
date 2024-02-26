@@ -45,7 +45,7 @@ public class BetterDiGraph implements EditableDiGraph {
             addVertex(w);
         }
         adj.get(v).add(w);
-        E++;
+        this.E++;
     }
 
     @Override
@@ -89,6 +89,7 @@ public class BetterDiGraph implements EditableDiGraph {
     public void removeEdge(int v, int w) {
         if (containsVertex(v)) {
             adj.get(v).remove(w);
+            this.E--;
         }
     }
 
@@ -96,6 +97,8 @@ public class BetterDiGraph implements EditableDiGraph {
     public void removeVertex(int v) {
         if (containsVertex(v)) {
             adj.remove(v);
+            this.V--;
+            this.E--;
         }
     }
 

@@ -1,6 +1,7 @@
 package edu.ser222.m04_02;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import sun.awt.image.ImageWatched;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -36,11 +37,17 @@ public class IntuitiveTopological implements TopologicalSort {
     }
 
     private void findOrder(EditableDiGraph graph) {
-        for (int i : graph.vertices()) {
-            int inDegree = graph.getIndegree(i);
-            if (inDegree == 0) {
-                order.add(i);
-                graph.removeVertex(i);
+        LinkedList<Integer> vertsToDel = new LinkedList<>();
+        while (graph.getVertexCount() != 0) {
+            for (int i : graph.vertices()) {
+                int inDegree = graph.getIndegree(i);
+                if (inDegree == 0) {
+                    order.add(i);
+                    vertsToDel.add(i);
+                }
+            }
+            for (int j : vertsToDel) {
+                graph.removeVertex(j);
             }
         }
     }

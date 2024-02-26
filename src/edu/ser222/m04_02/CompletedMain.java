@@ -3,7 +3,7 @@ package edu.ser222.m04_02;
 /**
  * An implementation of KanjiMain which builds topological sorts off of a graph of Kanji characters
  *
- * Completion time: (estimation of hours spent on this program) TODO: fill in
+ * Completion time: 7.0 hrs
  *
  * @author Tyler Johnson, Acuna, Buckner
  * @version 02/24/2024
@@ -25,8 +25,6 @@ import java.util.HashMap;
 public class CompletedMain implements KanjiMain {
 
     //Do not add any member variables to this class.
-
-    //TODO: implement interface methods.
 
     public HashMap<Integer, String> loadKanji(String filename, EditableDiGraph graph) {
         HashMap<Integer, String> kanjiMap = new HashMap<>();
